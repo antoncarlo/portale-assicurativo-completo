@@ -27,44 +27,30 @@ export default function Products() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <nav className="bg-gradient-to-r from-blue-700 to-blue-900 shadow-lg">
+      <nav className="bg-white shadow-sm border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-16">
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
-                <span className="text-2xl">🛡️</span>
-              </div>
-              <div>
-                <h1 className="text-white font-bold text-lg">Portale Broker</h1>
-                <p className="text-blue-200 text-xs">Gestione Polizze Assicurative</p>
-              </div>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-right">
-                <p className="text-white text-sm font-medium">Admin Broker</p>
-                <p className="text-blue-200 text-xs">admin@broker.it</p>
-              </div>
-              <div className="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold">
-                AB
-              </div>
+            <div className="flex items-center">
+              <span className="text-xl font-semibold text-blue-600">
+                🏢 Portale Assicurativo - Demo
+              </span>
             </div>
           </div>
         </div>
       </nav>
-            <div className="bg-white shadow-sm">
+      <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex gap-1">
+          <div className="flex gap-2">
             {navItems.map((item) => (
               <Link key={item.path} href={item.path}>
                 <button
-                  className={`px-6 py-4 text-sm font-medium transition-all duration-200 rounded-t-lg ${
+                  className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
                     location === item.path
-                      ? "bg-blue-600 text-white shadow-md"
-                      : "text-gray-600 hover:bg-gray-100 hover:text-gray-900"
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  <span className="text-lg mr-2">{item.icon}</span>
-                  {item.label}
+                  {item.icon} {item.label}
                 </button>
               </Link>
             ))}
