@@ -10,6 +10,8 @@ import Products from "./pages/Products";
 import Policies from "./pages/Policies";
 import NewPolicyWizard from "./pages/NewPolicyWizard";
 import Claims from "./pages/Claims";
+import NewClaim from "./pages/NewClaim";
+import ClaimDetail from "./pages/ClaimDetail";
 import Questionari from "./pages/Questionari";
 import Users from "./pages/Users";
 import Commissions from "./pages/Commissions";
@@ -26,7 +28,8 @@ function ProtectedRoute({ component: Component, ...rest }: any) {
 function Router() {
   return (
     <Switch>
-      <Route path="/login" component={Login} />
+      <Route path="/claims/new">{() => <ProtectedRoute component={NewClaim} />}</Route>
+      <Route path="/claims/:claimId">{() => <ProtectedRoute component={ClaimDetail} />}</Route>
       <Route path="/">{() => <ProtectedRoute component={Home} />}</Route>
       <Route path="/products">{() => <ProtectedRoute component={Products} />}</Route>
       <Route path="/products/:productId/new">{() => <ProtectedRoute component={NewPolicyWizard} />}</Route>

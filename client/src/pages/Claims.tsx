@@ -30,7 +30,7 @@ export default function Claims() {
   const navItems = getNavItemsForRole(currentUser?.role || "collaborator");
   const { data, isLoading } = trpc.claims.list.useQuery();
 
-  const [location] = useLocation();
+  const [location, setLocation] = useLocation();
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -105,7 +105,11 @@ export default function Claims() {
                   </TableHeader>
                   <TableBody>
                     {data?.claims.map((claim) => (
-                      <TableRow key={claim.id}>
+                      <TableRow 
+                        key={claim.id}
+                        className="cursor-pointer hover:bg-gray-50"
+                        onClick={() => setLocation(`/claims/${claim.id}`)}
+                      >
                         <TableCell className="font-medium">
                           {claim.claimNumber}
                         </TableCell>
