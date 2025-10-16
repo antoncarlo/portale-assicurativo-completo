@@ -26,13 +26,7 @@ export default function Policies() {
 
   const [location] = useLocation();
 
-  const navItems = [
-    { path: "/", label: "Dashboard", icon: "📊" },
-    { path: "/products", label: "Prodotti", icon: "📦" },
-    { path: "/policies", label: "Polizze", icon: "📋" },
-    { path: "/claims", label: "Sinistri", icon: "⚠️" },
-    { path: "/questionari", label: "Questionari", icon: "📄" },
-  ];
+  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
 
   return (
     <div className="min-h-screen bg-gray-50">

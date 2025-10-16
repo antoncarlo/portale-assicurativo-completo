@@ -1,20 +1,16 @@
 import { useState } from "react";
+import { getNavItemsForRole } from "@/components/Navigation";
+import { Notifications } from "@/components/Notifications";
 import { Button } from "@/components/ui/button";
+import { exportCommissionsToExcel } from "@/utils/export";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
-const navItems = [
-  { name: "Dashboard", path: "/", icon: "📊" },
-  { name: "Prodotti", path: "/products", icon: "📦" },
-  { name: "Polizze", path: "/policies", icon: "📄" },
-  { name: "Sinistri", path: "/claims", icon: "⚠️" },
-  { name: "Questionari", path: "/questionari", icon: "📋" },
-  { name: "Utenti", path: "/users", icon: "👥" },
-  { name: "Provvigioni", path: "/commissions", icon: "💰" },
-];
+// navItems will be defined after currentUser
 
 export default function Commissions() {
   const [activeTab, setActiveTab] = useState("Provvigioni");
   const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
 
   const handleLogout = () => {
     localStorage.removeItem("currentUser");
@@ -156,9 +152,13 @@ export default function Commissions() {
         <Card>
           <CardHeader className="flex flex-row items-center justify-between">
             <CardTitle>Storico Provvigioni</CardTitle>
-            <Button variant="outline" className="bg-green-50 text-green-700 hover:bg-green-100">
-              📥 Esporta Excel
-            </Button>
+              <Button 
+                variant="outline" 
+                className="bg-green-50 text-green-700 hover:bg-green-100"
+                onClick={() => exportCommissionsToExcel(commissions)}
+              >
+                📥 Esporta Excel
+              </Button>
           </CardHeader>
           <CardContent>
             <div className="overflow-x-auto">

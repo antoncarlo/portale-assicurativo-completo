@@ -1,4 +1,6 @@
 import { useState } from "react";
+import { getNavItemsForRole } from "@/components/Navigation";
+import { Notifications } from "@/components/Notifications";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -7,15 +9,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
 
-const navItems = [
-  { name: "Dashboard", path: "/", icon: "📊" },
-  { name: "Prodotti", path: "/products", icon: "📦" },
-  { name: "Polizze", path: "/policies", icon: "📄" },
-  { name: "Sinistri", path: "/claims", icon: "⚠️" },
-  { name: "Questionari", path: "/questionari", icon: "📋" },
-  { name: "Utenti", path: "/users", icon: "👥" },
-  { name: "Provvigioni", path: "/commissions", icon: "💰" },
-];
+// navItems will be defined after currentUser
 
 export default function Users() {
   const [activeTab, setActiveTab] = useState("Utenti");
@@ -31,6 +25,7 @@ export default function Users() {
   });
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
+  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
 
   const registerMutation = trpc.customAuth.register.useMutation({
     onSuccess: () => {

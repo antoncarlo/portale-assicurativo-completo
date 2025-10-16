@@ -2,6 +2,8 @@ import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
+import { getNavItemsForRole } from "@/components/Navigation";
+import { Notifications } from "@/components/Notifications";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -25,13 +27,7 @@ export default function Claims() {
   const { data, isLoading } = trpc.claims.list.useQuery();
 
   const [location] = useLocation();
-  const navItems = [
-    { path: "/", label: "Dashboard", icon: "📊" },
-    { path: "/products", label: "Prodotti", icon: "📦" },
-    { path: "/policies", label: "Polizze", icon: "📋" },
-    { path: "/claims", label: "Sinistri", icon: "⚠️" },
-    { path: "/questionari", label: "Questionari", icon: "📄" },
-  ];
+  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
 
   return (
     <div className="min-h-screen bg-gray-50">
