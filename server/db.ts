@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users } from "../drizzle/schema";
+import { InsertUser, users, productTypes, policies, InsertPolicy } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -85,4 +85,65 @@ export async function getUser(id: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// TODO: add feature queries here as your schema grows.
+// Prodotti
+export async function getAllProducts() {
+  const db = await getDb();
+  if (!db) return [];
+  const result = await db.select().from(productTypes).where(eq(productTypes.active, "yes"));
+  return result;
+}
+
+export async function getProductById(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(productTypes).where(eq(productTypes.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+// Polizze
+export async function getAllPolicies(userId?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  
+  if (userId) {
+    return await db.select().from(policies).where(eq(policies.userId, userId));
+  }
+  return await db.select().from(policies);
+}
+
+export async function getPolicyById(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(policies).where(eq(policies.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createPolicy(policy: InsertPolicy) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(policies).values(policy);
+  return policy;
+}
+
+export async function getPolicyStats(userId?: string) {
+  const db = await getDb();
+  if (!db) return { total: 0, active: 0, byStatus: {}, totalPremium: 0 };
+  
+  const allPolicies = await getAllPolicies(userId);
+  const active = allPolicies.filter(p => p.status === "active" || p.status === "issued").length;
+  const byStatus = allPolicies.reduce((acc, p) => {
+    acc[p.status] = (acc[p.status] || 0) + 1;
+    return acc;
+  }, {} as Record<string, number>);
+  
+  const totalPremium = allPolicies.reduce((sum, p) => {
+    return sum + (parseFloat(p.premiumAmount || "0") || 0);
+  }, 0);
+  
+  return {
+    total: allPolicies.length,
+    active,
+    byStatus,
+    totalPremium
+  };
+}
