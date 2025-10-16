@@ -22,9 +22,10 @@ export type InsertUser = typeof users.$inferInsert;
 export const productTypes = mysqlTable("product_types", {
   id: varchar("id", { length: 64 }).primaryKey(),
   name: varchar("name", { length: 255 }).notNull(),
-  code: varchar("code", { length: 64 }).notNull().unique(),
   description: text("description"),
-  icon: varchar("icon", { length: 64 }),
+  category: varchar("category", { length: 100 }),
+  icon: varchar("icon", { length: 50 }),
+  questionnaireFile: varchar("questionnaireFile", { length: 500 }),
   active: mysqlEnum("active", ["yes", "no"]).default("yes").notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
 });

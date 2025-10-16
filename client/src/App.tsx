@@ -7,7 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import Products from "./pages/Products";
 import Policies from "./pages/Policies";
-import NewPolicy from "./pages/NewPolicy";
+import NewPolicyWizard from "./pages/NewPolicyWizard";
 import Claims from "./pages/Claims";
 import Documents from "./pages/Documents";
 
@@ -17,7 +17,7 @@ function Router() {
     <Switch>
       <Route path={"/"} component={Home} />
       <Route path="/products" component={Products} />
-      <Route path="/products/:productId/new" component={NewPolicy} />
+      <Route path="/products/:productId/new" component={NewPolicyWizard} />
       <Route path="/policies" component={Policies} />
       <Route path="/claims" component={Claims} />
       <Route path="/documents" component={Documents} />
