@@ -182,6 +182,30 @@ export async function createClaim(claimData: InsertClaim) {
   return id;
 }
 
+// ===== POLICY COMMUNICATIONS =====
+
+export async function getPolicyCommunications(policyId: string) {
+  const db = await getDb();
+  if (!db) return { communications: [] };
+  const result: any = await db.execute(
+    `SELECT * FROM policy_communications WHERE policyId = ? ORDER BY createdAt DESC`,
+    [policyId]
+  );
+  return { communications: Array.isArray(result) ? result : [] };
+}
+
+export async function addPolicyCommunication(data: any) {
+  const db = await getDb();
+  if (!db) return { success: false };
+  const { randomUUID } = await import("crypto");
+  const id = randomUUID();
+  await db.execute(
+    `INSERT INTO policy_communications (id, policyId, userId, userName, userRole, type, content, documentUrl, documentName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+    [id, data.policyId, data.userId, data.userName, data.userRole, data.type, data.content || null, data.documentUrl || null, data.documentName || null]
+  );
+  return { success: true, id };
+}
+
 // ===== DOCUMENTS =====
 
 export async function getAllDocuments() {

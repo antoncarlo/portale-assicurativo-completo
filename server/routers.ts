@@ -28,6 +28,27 @@ export const appRouter = router({
   }),
 
   policies: router({
+    getById: publicProcedure
+      .input((input: any) => input)
+      .query(async ({ input }) => {
+        const { getPolicyById } = await import("./db");
+        return await getPolicyById(input);
+      }),
+    
+    getCommunications: publicProcedure
+      .input((input: any) => input)
+      .query(async ({ input }) => {
+        const { getPolicyCommunications } = await import("./db");
+        return await getPolicyCommunications(input);
+      }),
+    
+    addCommunication: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { addPolicyCommunication } = await import("./db");
+        return await addPolicyCommunication(input);
+      }),
+    
     list: publicProcedure.query(async () => {
       const { getAllPolicies } = await import("./db");
       const allPolicies = await getAllPolicies();

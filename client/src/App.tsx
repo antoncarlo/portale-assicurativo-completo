@@ -15,6 +15,7 @@ import ClaimDetail from "./pages/ClaimDetail";
 import Questionari from "./pages/Questionari";
 import Users from "./pages/Users";
 import Commissions from "./pages/Commissions";
+import PolicyDetail from "./pages/PolicyDetail";
 
 // Check if user is logged in
 function isAuthenticated() {
@@ -33,6 +34,7 @@ function Router() {
       <Route path="/">{() => <ProtectedRoute component={Home} />}</Route>
       <Route path="/products">{() => <ProtectedRoute component={Products} />}</Route>
       <Route path="/products/:productId/new">{() => <ProtectedRoute component={NewPolicyWizard} />}</Route>
+      <Route path="/policies/:policyId">{() => <ProtectedRoute component={PolicyDetail} />}</Route>
       <Route path="/policies">{() => <ProtectedRoute component={Policies} />}</Route>
       <Route path="/claims">{() => <ProtectedRoute component={Claims} />}</Route>
       <Route path="/questionari">{() => <ProtectedRoute component={Questionari} />}</Route>

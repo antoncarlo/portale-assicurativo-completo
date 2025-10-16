@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE IF NOT EXISTS policy_communications (\n  id VARCHAR(64) PRIMARY KEY,\n  policyId VARCHAR(64) NOT NULL,\n  userId VARCHAR(64) NOT NULL,\n  userName VARCHAR(255),\n  userRole VARCHAR(50),\n  type ENUM('note', 'document', 'status_change') NOT NULL DEFAULT 'note',\n  content TEXT,\n  documentUrl VARCHAR(500),\n  documentName VARCHAR(255),\n  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP\n)",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3Gi72ak4Axa5NxU.root --database DNAARzbZDjem8LXmDXdbXn --execute CREATE TABLE IF NOT EXISTS policy_communications (\n  id VARCHAR(64) PRIMARY KEY,\n  policyId VARCHAR(64) NOT NULL,\n  userId VARCHAR(64) NOT NULL,\n  userName VARCHAR(255),\n  userRole VARCHAR(50),\n  type ENUM('note', 'document', 'status_change') NOT NULL DEFAULT 'note',\n  content TEXT,\n  documentUrl VARCHAR(500),\n  documentName VARCHAR(255),\n  createdAt DATETIME DEFAULT CURRENT_TIMESTAMP\n)",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 242
+}

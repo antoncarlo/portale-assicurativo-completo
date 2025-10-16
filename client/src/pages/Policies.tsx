@@ -93,7 +93,7 @@ export default function Policies() {
                 </TableHeader>
                 <TableBody>
                   {data?.policies.map((policy) => (
-                    <TableRow key={policy.id}>
+                    <TableRow key={policy.id} className="cursor-pointer hover:bg-gray-50" onClick={() => window.location.href = `/policies/${policy.id}`}>
                       <TableCell className="font-medium">
                         {policy.policyNumber}
                       </TableCell>
