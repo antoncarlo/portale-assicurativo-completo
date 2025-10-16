@@ -1,4 +1,4 @@
-import { eq } from "drizzle-orm";
+import { eq, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
 import { 
   users, InsertUser,
@@ -187,11 +187,15 @@ export async function createClaim(claimData: InsertClaim) {
 export async function getPolicyCommunications(policyId: string) {
   const db = await getDb();
   if (!db) return { communications: [] };
-  const result: any = await db.execute(
-    `SELECT * FROM policy_communications WHERE policyId = ? ORDER BY createdAt DESC`,
-    [policyId]
-  );
-  return { communications: Array.isArray(result) ? result : [] };
+  try {
+    const result: any = await db.execute(
+      sql`SELECT * FROM policy_communications WHERE policyId = ${policyId} ORDER BY createdAt DESC`
+    );
+    return { communications: result[0] || [] };
+  } catch (error) {
+    console.error('[getPolicyCommunications] Error:', error);
+    return { communications: [] };
+  }
 }
 
 export async function addPolicyCommunication(data: any) {
@@ -199,11 +203,16 @@ export async function addPolicyCommunication(data: any) {
   if (!db) return { success: false };
   const { randomUUID } = await import("crypto");
   const id = randomUUID();
-  await db.execute(
-    `INSERT INTO policy_communications (id, policyId, userId, userName, userRole, type, content, documentUrl, documentName) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
-    [id, data.policyId, data.userId, data.userName, data.userRole, data.type, data.content || null, data.documentUrl || null, data.documentName || null]
-  );
-  return { success: true, id };
+  try {
+    await db.execute(
+      sql`INSERT INTO policy_communications (id, policyId, userId, userName, userRole, type, content, documentUrl, documentName) 
+          VALUES (${id}, ${data.policyId}, ${data.userId}, ${data.userName}, ${data.userRole}, ${data.type}, ${data.content || null}, ${data.documentUrl || null}, ${data.documentName || null})`
+    );
+    return { success: true, id };
+  } catch (error) {
+    console.error('[addPolicyCommunication] Error:', error);
+    return { success: false };
+  }
 }
 
 // ===== DOCUMENTS =====
