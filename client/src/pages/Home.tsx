@@ -1,8 +1,12 @@
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
+import { getNavItemsForRole } from "@/components/Navigation";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 export default function Home() {
+  const { user: currentUser } = useAuth();
+  const navItems = getNavItemsForRole(currentUser?.role || "collaborator");
   const { data: stats, isLoading } = trpc.policies.stats.useQuery();
   const { data: claimsData } = trpc.claims.list.useQuery();
   
@@ -10,8 +14,6 @@ export default function Home() {
   const openClaims = claimsData?.claims.filter(c => c.status === "reported" || c.status === "under_review").length || 0;
 
   const [location] = useLocation();
-
-  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -41,7 +43,7 @@ export default function Home() {
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.label}
+                  {item.icon} {item.name}
                 </button>
               </Link>
             ))}
@@ -165,14 +167,14 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <div className="space-y-3">
-                {stats?.by_status && Object.entries(stats.by_status).map(([status, count]) => (
-                  <div key={status} className="flex justify-between items-center">
-                    <span className="text-sm text-gray-600 capitalize">
-                      {status.replace(/_/g, " ")}
-                    </span>
-                    <span className="font-semibold">{count as number}</span>
-                  </div>
-                ))}
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Attive</span>
+                  <span className="font-semibold">{stats?.active || 0}</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">In Quotazione</span>
+                  <span className="font-semibold">{stats?.inQuotation || 0}</span>
+                </div>
               </div>
             </CardContent>
           </Card>

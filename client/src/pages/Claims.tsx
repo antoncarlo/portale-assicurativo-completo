@@ -24,10 +24,11 @@ const statusMap: Record<string, { label: string; variant: "default" | "secondary
 };
 
 export default function Claims() {
+  const { user: currentUser } = useAuth();
+  const navItems = getNavItemsForRole(currentUser?.role || "collaborator");
   const { data, isLoading } = trpc.claims.list.useQuery();
 
   const [location] = useLocation();
-  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -54,7 +55,7 @@ export default function Claims() {
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.label}
+                  {item.icon} {item.name}
                 </button>
               </Link>
             ))}

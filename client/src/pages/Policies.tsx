@@ -1,6 +1,8 @@
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
+import { getNavItemsForRole } from "@/components/Navigation";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -22,11 +24,11 @@ const statusMap: Record<string, { label: string; variant: "default" | "secondary
 };
 
 export default function Policies() {
+  const { user: currentUser } = useAuth();
+  const navItems = getNavItemsForRole(currentUser?.role || "collaborator");
   const { data, isLoading } = trpc.policies.list.useQuery();
 
   const [location] = useLocation();
-
-  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -53,7 +55,7 @@ export default function Policies() {
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.label}
+                  {item.icon} {item.name}
                 </button>
               </Link>
             ))}

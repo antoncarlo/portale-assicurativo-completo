@@ -1,6 +1,7 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
 import { getNavItemsForRole } from "@/components/Navigation";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Notifications } from "@/components/Notifications";
 import { Button } from "@/components/ui/button";
 
@@ -80,10 +81,9 @@ const questionari = [
 ];
 
 export default function Questionari() {
-  const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
-  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
+  const { user: currentUser } = useAuth();
+  const navItems = getNavItemsForRole(currentUser?.role || "collaborator");
   const [location] = useLocation();
-  // navItems will be defined after currentUser
 
   // Raggruppa per categoria
   const categorieUniche = Array.from(new Set(questionari.map(q => q.categoria)));
@@ -113,7 +113,7 @@ export default function Questionari() {
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.label}
+                  {item.icon} {item.name}
                 </button>
               </Link>
             ))}

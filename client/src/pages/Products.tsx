@@ -1,6 +1,8 @@
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
+import { getNavItemsForRole } from "@/components/Navigation";
+import { useAuth } from "@/_core/hooks/useAuth";
 
 const iconMap: Record<string, string> = {
   Construction: "🏗️",
@@ -13,11 +15,13 @@ const iconMap: Record<string, string> = {
 };
 
 export default function Products() {
+  const { user: currentUser } = useAuth();
+  const navItems = getNavItemsForRole(currentUser?.role || "collaborator");
   const { data: products, isLoading } = trpc.products.list.useQuery();
 
   const [location] = useLocation();
 
-  const navItems = getNavItemsForRole(currentUser.role || "collaborator");
+  
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -44,7 +48,7 @@ export default function Products() {
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.label}
+                  {item.icon} {item.name}
                 </button>
               </Link>
             ))}
