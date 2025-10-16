@@ -30,7 +30,7 @@ export default function Claims() {
     { path: "/products", label: "Prodotti", icon: "📦" },
     { path: "/policies", label: "Polizze", icon: "📋" },
     { path: "/claims", label: "Sinistri", icon: "⚠️" },
-    { path: "/documents", label: "Documenti", icon: "📄" },
+    { path: "/questionari", label: "Questionari", icon: "📄" },
   ];
 
   return (

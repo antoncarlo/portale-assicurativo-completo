@@ -9,7 +9,7 @@ import Products from "./pages/Products";
 import Policies from "./pages/Policies";
 import NewPolicyWizard from "./pages/NewPolicyWizard";
 import Claims from "./pages/Claims";
-import Documents from "./pages/Documents";
+import Questionari from "./pages/Questionari";
 
 function Router() {
   // make sure to consider if you need authentication for certain routes
@@ -20,7 +20,7 @@ function Router() {
       <Route path="/products/:productId/new" component={NewPolicyWizard} />
       <Route path="/policies" component={Policies} />
       <Route path="/claims" component={Claims} />
-      <Route path="/documents" component={Documents} />
+      <Route path="/questionari" component={Questionari} />
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />
