@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
 import { getNavItemsForRole } from "@/components/Navigation";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { Notifications } from "@/components/Notifications";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,

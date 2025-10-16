@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Link, useLocation } from "wouter";
 import { getNavItemsForRole } from "@/components/Navigation";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { Notifications } from "@/components/Notifications";
 
 const iconMap: Record<string, string> = {
   Construction: "🏗️",

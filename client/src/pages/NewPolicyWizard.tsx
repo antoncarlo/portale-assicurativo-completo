@@ -8,6 +8,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "@/components/ui/badge";
+import { FileUpload } from "@/components/FileUpload";
 
 export default function NewPolicyWizard() {
   const [, params] = useRoute("/products/:productId/new");
@@ -61,14 +62,8 @@ export default function NewPolicyWizard() {
     descrizione: "",
   });
 
-  const [documenti, setDocumenti] = useState<File[]>([]);
+  const [documenti, setDocumenti] = useState<Array<{ name: string; size: number; url: string }>>([]);
   const [notes, setNotes] = useState("");
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      setDocumenti(Array.from(e.target.files));
-    }
-  };
 
   const handleSubmit = () => {
     if (!productId) {
@@ -639,46 +634,16 @@ export default function NewPolicyWizard() {
               (currentStep === 3 && product.id !== "fidejussioni")) && (
               <div className="space-y-6">
                 <h3 className="text-lg font-semibold">Carica Documenti</h3>
+                <p className="text-sm text-gray-600">Carica tutti i documenti necessari per la richiesta (questionario compilato, documenti identificativi, ecc.)</p>
                 
-                <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
-                  <input
-                    type="file"
-                    multiple
-                    onChange={handleFileChange}
-                    className="hidden"
-                    id="file-upload"
-                    accept=".pdf,.doc,.docx,.jpg,.jpeg,.png"
-                  />
-                  <label
-                    htmlFor="file-upload"
-                    className="cursor-pointer flex flex-col items-center"
-                  >
-                    <div className="text-6xl mb-4">📎</div>
-                    <p className="text-lg font-medium mb-2">
-                      Clicca per caricare documenti
-                    </p>
-                    <p className="text-sm text-gray-600">
-                      PDF, Word, Immagini (max 10MB per file)
-                    </p>
-                  </label>
-                </div>
-
-                {documenti.length > 0 && (
-                  <div className="space-y-2">
-                    <h4 className="font-medium">Documenti selezionati:</h4>
-                    {documenti.map((file, index) => (
-                      <div
-                        key={index}
-                        className="flex items-center justify-between p-3 bg-gray-50 rounded"
-                      >
-                        <span className="text-sm">{file.name}</span>
-                        <Badge variant="secondary">
-                          {(file.size / 1024).toFixed(2)} KB
-                        </Badge>
-                      </div>
-                    ))}
-                  </div>
-                )}
+                <FileUpload
+                  maxFiles={10}
+                  acceptedTypes=".pdf,.doc,.docx,.jpg,.jpeg,.png,.xlsx,.xls"
+                  onUploadComplete={(uploadedFiles) => {
+                    setDocumenti(uploadedFiles.map(f => ({ name: f.name, size: f.size, url: f.url || '' })));
+                    toast.success(`${uploadedFiles.length} file caricati con successo!`);
+                  }}
+                />
 
                 <div className="space-y-2">
                   <Label htmlFor="notes">Note Aggiuntive</Label>

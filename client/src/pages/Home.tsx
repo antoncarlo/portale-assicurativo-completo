@@ -3,6 +3,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
 import { getNavItemsForRole } from "@/components/Navigation";
 import { useAuth } from "@/_core/hooks/useAuth";
+import { Notifications } from "@/components/Notifications";
 
 export default function Home() {
   const { user: currentUser } = useAuth();

@@ -3,8 +3,10 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import { getNavItemsForRole } from "@/components/Navigation";
+import { useAuth } from "@/_core/hooks/useAuth";
 import { Notifications } from "@/components/Notifications";
 import { Button } from "@/components/ui/button";
+import { exportToExcel } from "@/utils/export";
 import {
   Table,
   TableBody,
