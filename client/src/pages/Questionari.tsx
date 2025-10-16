@@ -73,7 +73,7 @@ const questionari = [
     file: "/questionari/Questionario_1015(2).pdf",
     tipo: "PDF",
     icon: "📋",
-    categoria: "Altro"
+    categoria: "Assicurazione Fabbricati"
   }
 ];
 
