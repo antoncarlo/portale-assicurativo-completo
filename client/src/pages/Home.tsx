@@ -108,7 +108,7 @@ export default function Home() {
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold text-gray-900">
-                {isLoading ? "..." : stats?.by_status?.in_quotation || 0}
+                {isLoading ? "..." : stats?.inQuotation || 0}
               </div>
             </CardContent>
           </Card>

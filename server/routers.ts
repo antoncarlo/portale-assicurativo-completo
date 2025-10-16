@@ -1,10 +1,13 @@
 import { COOKIE_NAME } from "@shared/const";
 import { getSessionCookieOptions } from "./_core/cookies";
 import { systemRouter } from "./_core/systemRouter";
-import { publicProcedure, protectedProcedure, router } from "./_core/trpc";
+import { publicProcedure, router } from "./_core/trpc";
+import { authRouter } from "./routes/auth";
 
 export const appRouter = router({
   system: systemRouter,
+
+  customAuth: authRouter,
 
   auth: router({
     me: publicProcedure.query(opts => opts.ctx.user),
@@ -48,7 +51,7 @@ export const appRouter = router({
       return {
         total: stats.total,
         active: stats.active,
-        by_status: stats.byStatus,
+        inQuotation: stats.inQuotation,
         total_premium: stats.totalPremium
       };
     }),
@@ -121,12 +124,10 @@ export const appRouter = router({
   }),
 
   documents: router({
-    list: publicProcedure
-      .input((input: any) => input || {})
-      .query(async ({ input }) => {
-        const { getAllDocuments } = await import("./db");
-        return await getAllDocuments(input.relatedId);
-      }),
+    list: publicProcedure.query(async () => {
+      const { getAllDocuments } = await import("./db");
+      return { documents: await getAllDocuments() };
+    }),
   }),
 });
 

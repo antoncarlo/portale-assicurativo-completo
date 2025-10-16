@@ -1,18 +1,21 @@
-import { mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
+import { boolean, int, mysqlEnum, mysqlTable, text, timestamp, varchar } from "drizzle-orm/mysql-core";
 
 /**
- * Core user table backing auth flow.
- * Extend this file with additional tables as your product grows.
- * Columns use camelCase to match both database fields and generated types.
+ * Tabella utenti con autenticazione completa
  */
 export const users = mysqlTable("users", {
   id: varchar("id", { length: 64 }).primaryKey(),
+  username: varchar("username", { length: 100 }).notNull().unique(),
+  password: varchar("password", { length: 255 }).notNull(), // Hashed password
   name: text("name"),
-  email: varchar("email", { length: 320 }),
-  loginMethod: varchar("loginMethod", { length: 64 }),
-  role: mysqlEnum("role", ["user", "admin"]).default("user").notNull(),
+  email: varchar("email", { length: 320 }).notNull(),
+  phone: varchar("phone", { length: 20 }),
+  role: mysqlEnum("role", ["master", "admin", "agent", "collaborator"]).default("agent").notNull(),
+  isActive: boolean("isActive").default(true).notNull(),
+  parentAgentId: varchar("parentAgentId", { length: 64 }), // Per gerarchia agenti
+  commissionRate: int("commissionRate").default(0), // Percentuale provvigione
   createdAt: timestamp("createdAt").defaultNow(),
-  lastSignedIn: timestamp("lastSignedIn").defaultNow(),
+  lastSignedIn: timestamp("lastSignedIn"),
 });
 
 export type User = typeof users.$inferSelect;
@@ -26,7 +29,7 @@ export const productTypes = mysqlTable("product_types", {
   category: varchar("category", { length: 100 }),
   icon: varchar("icon", { length: 50 }),
   questionnaireFile: varchar("questionnaireFile", { length: 500 }),
-  active: mysqlEnum("active", ["yes", "no"]).default("yes").notNull(),
+  active: boolean("active").default(true).notNull(),
   createdAt: timestamp("createdAt").defaultNow(),
 });
 
@@ -92,7 +95,7 @@ export const documents = mysqlTable("documents", {
   fileSize: varchar("fileSize", { length: 20 }),
   mimeType: varchar("mimeType", { length: 100 }),
   category: mysqlEnum("category", ["policy", "claim", "quote", "other"]).default("other").notNull(),
-  relatedId: varchar("relatedId", { length: 64 }),
+  policyId: varchar("policyId", { length: 64 }), // Renamed from relatedId for clarity
   uploadedBy: varchar("uploadedBy", { length: 64 }),
   createdAt: timestamp("createdAt").defaultNow(),
 });
@@ -107,7 +110,7 @@ export const notifications = mysqlTable("notifications", {
   title: varchar("title", { length: 255 }).notNull(),
   message: text("message"),
   type: mysqlEnum("type", ["info", "warning", "success", "error"]).default("info").notNull(),
-  read: mysqlEnum("read", ["yes", "no"]).default("no").notNull(),
+  isRead: boolean("isRead").default(false).notNull(),
   relatedId: varchar("relatedId", { length: 64 }),
   createdAt: timestamp("createdAt").defaultNow(),
 });
@@ -119,7 +122,7 @@ export type InsertNotification = typeof notifications.$inferInsert;
 export const commissions = mysqlTable("commissions", {
   id: varchar("id", { length: 64 }).primaryKey(),
   policyId: varchar("policyId", { length: 64 }).notNull(),
-  userId: varchar("userId", { length: 64 }).notNull(),
+  agentId: varchar("agentId", { length: 64 }).notNull(), // Renamed from userId for clarity
   amount: varchar("amount", { length: 20 }).notNull(),
   percentage: varchar("percentage", { length: 10 }),
   status: mysqlEnum("status", ["pending", "approved", "paid"]).default("pending").notNull(),
@@ -130,3 +133,4 @@ export const commissions = mysqlTable("commissions", {
 
 export type Commission = typeof commissions.$inferSelect;
 export type InsertCommission = typeof commissions.$inferInsert;
+

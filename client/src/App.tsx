@@ -1,7 +1,8 @@
 import { Toaster } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import NotFound from "@/pages/NotFound";
-import { Route, Switch } from "wouter";
+import Login from "@/pages/Login";
+import { Route, Switch, Redirect } from "wouter";
 import ErrorBoundary from "./components/ErrorBoundary";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
@@ -11,16 +12,25 @@ import NewPolicyWizard from "./pages/NewPolicyWizard";
 import Claims from "./pages/Claims";
 import Questionari from "./pages/Questionari";
 
+// Check if user is logged in
+function isAuthenticated() {
+  return localStorage.getItem("currentUser") !== null;
+}
+
+function ProtectedRoute({ component: Component, ...rest }: any) {
+  return isAuthenticated() ? <Component {...rest} /> : <Redirect to="/login" />;
+}
+
 function Router() {
-  // make sure to consider if you need authentication for certain routes
   return (
     <Switch>
-      <Route path={"/"} component={Home} />
-      <Route path="/products" component={Products} />
-      <Route path="/products/:productId/new" component={NewPolicyWizard} />
-      <Route path="/policies" component={Policies} />
-      <Route path="/claims" component={Claims} />
-      <Route path="/questionari" component={Questionari} />
+      <Route path="/login" component={Login} />
+      <Route path="/">{() => <ProtectedRoute component={Home} />}</Route>
+      <Route path="/products">{() => <ProtectedRoute component={Products} />}</Route>
+      <Route path="/products/:productId/new">{() => <ProtectedRoute component={NewPolicyWizard} />}</Route>
+      <Route path="/policies">{() => <ProtectedRoute component={Policies} />}</Route>
+      <Route path="/claims">{() => <ProtectedRoute component={Claims} />}</Route>
+      <Route path="/questionari">{() => <ProtectedRoute component={Questionari} />}</Route>
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

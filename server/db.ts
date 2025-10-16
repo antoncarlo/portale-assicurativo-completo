@@ -1,7 +1,14 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, productTypes, policies, InsertPolicy, claims, InsertClaim, documents, InsertDocument, notifications, InsertNotification } from "../drizzle/schema";
-import { ENV } from './_core/env';
+import { 
+  users, InsertUser,
+  productTypes, InsertProductType,
+  policies, InsertPolicy,
+  claims, InsertClaim,
+  documents, InsertDocument,
+  notifications, InsertNotification,
+  commissions, InsertCommission
+} from "../drizzle/schema";
 
 let _db: ReturnType<typeof drizzle> | null = null;
 
@@ -18,79 +25,73 @@ export async function getDb() {
   return _db;
 }
 
-export async function upsertUser(user: InsertUser): Promise<void> {
-  if (!user.id) {
-    throw new Error("User ID is required for upsert");
-  }
+// ===== USER MANAGEMENT =====
 
+export async function createUser(userData: InsertUser) {
   const db = await getDb();
-  if (!db) {
-    console.warn("[Database] Cannot upsert user: database not available");
-    return;
-  }
+  if (!db) throw new Error("Database not available");
 
-  try {
-    const values: InsertUser = {
-      id: user.id,
-    };
-    const updateSet: Record<string, unknown> = {};
+  const id = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  await db.insert(users).values({
+    ...userData,
+    id,
+    createdAt: new Date(),
+  });
 
-    const textFields = ["name", "email", "loginMethod"] as const;
-    type TextField = (typeof textFields)[number];
-
-    const assignNullable = (field: TextField) => {
-      const value = user[field];
-      if (value === undefined) return;
-      const normalized = value ?? null;
-      values[field] = normalized;
-      updateSet[field] = normalized;
-    };
-
-    textFields.forEach(assignNullable);
-
-    if (user.lastSignedIn !== undefined) {
-      values.lastSignedIn = user.lastSignedIn;
-      updateSet.lastSignedIn = user.lastSignedIn;
-    }
-    if (user.role === undefined) {
-      if (user.id === ENV.ownerId) {
-        user.role = 'admin';
-        values.role = 'admin';
-        updateSet.role = 'admin';
-      }
-    }
-
-    if (Object.keys(updateSet).length === 0) {
-      updateSet.lastSignedIn = new Date();
-    }
-
-    await db.insert(users).values(values).onDuplicateKeyUpdate({
-      set: updateSet,
-    });
-  } catch (error) {
-    console.error("[Database] Failed to upsert user:", error);
-    throw error;
-  }
+  return id;
 }
 
-export async function getUser(id: string) {
+export async function getUserByUsername(username: string) {
   const db = await getDb();
-  if (!db) {
-    console.warn("[Database] Cannot get user: database not available");
-    return undefined;
-  }
+  if (!db) return undefined;
 
-  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
-
+  const result = await db.select().from(users).where(eq(users.username, username)).limit(1);
   return result.length > 0 ? result[0] : undefined;
 }
 
-// Prodotti
+export async function getUserById(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+
+  const result = await db.select().from(users).where(eq(users.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function getAllUsers() {
+  const db = await getDb();
+  if (!db) return [];
+
+  return await db.select().from(users);
+}
+
+export async function updateUser(id: string, updates: Partial<InsertUser>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(users).set(updates).where(eq(users.id, id));
+}
+
+export async function deleteUser(id: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.delete(users).where(eq(users.id, id));
+}
+
+export async function updateLastSignIn(id: string) {
+  const db = await getDb();
+  if (!db) return;
+
+  await db.update(users).set({ lastSignedIn: new Date() }).where(eq(users.id, id));
+}
+
+// ===== PRODUCTS =====
+
 export async function getAllProducts() {
   const db = await getDb();
   if (!db) return [];
-  const result = await db.select().from(productTypes).where(eq(productTypes.active, "yes"));
-  return result;
+  return await db.select().from(productTypes);
 }
 
 export async function getProductById(id: string) {
@@ -100,14 +101,11 @@ export async function getProductById(id: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-// Polizze
-export async function getAllPolicies(userId?: string) {
+// ===== POLICIES =====
+
+export async function getAllPolicies() {
   const db = await getDb();
   if (!db) return [];
-  
-  if (userId) {
-    return await db.select().from(policies).where(eq(policies.userId, userId));
-  }
   return await db.select().from(policies);
 }
 
@@ -118,37 +116,43 @@ export async function getPolicyById(id: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-export async function createPolicy(policy: InsertPolicy) {
+export async function createPolicy(policyData: InsertPolicy) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  await db.insert(policies).values(policy);
-  return policy;
+
+  const id = `policy_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  await db.insert(policies).values({
+    ...policyData,
+    id,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  return id;
 }
 
-export async function getPolicyStats(userId?: string) {
+export async function getPolicyStats() {
   const db = await getDb();
-  if (!db) return { total: 0, active: 0, byStatus: {}, totalPremium: 0 };
-  
-  const allPolicies = await getAllPolicies(userId);
-  const active = allPolicies.filter(p => p.status === "active" || p.status === "issued").length;
-  const byStatus = allPolicies.reduce((acc, p) => {
-    acc[p.status] = (acc[p.status] || 0) + 1;
-    return acc;
-  }, {} as Record<string, number>);
-  
-  const totalPremium = allPolicies.reduce((sum, p) => {
-    return sum + (parseFloat(p.premiumAmount || "0") || 0);
-  }, 0);
+  if (!db) return {
+    total: 0,
+    active: 0,
+    inQuotation: 0,
+    totalPremium: 0
+  };
+
+  const allPolicies = await db.select().from(policies);
   
   return {
     total: allPolicies.length,
-    active,
-    byStatus,
-    totalPremium
+    active: allPolicies.filter(p => p.status === 'active').length,
+    inQuotation: allPolicies.filter(p => p.status === 'in_quotation').length,
+    totalPremium: allPolicies.reduce((sum, p) => sum + (parseFloat(p.premiumAmount || '0')), 0)
   };
 }
 
-// Sinistri
+// ===== CLAIMS =====
+
 export async function getAllClaims() {
   const db = await getDb();
   if (!db) return [];
@@ -162,26 +166,105 @@ export async function getClaimById(id: string) {
   return result.length > 0 ? result[0] : undefined;
 }
 
-export async function createClaim(claim: InsertClaim) {
+export async function createClaim(claimData: InsertClaim) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  await db.insert(claims).values(claim);
-  return claim;
+
+  const id = `claim_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  await db.insert(claims).values({
+    ...claimData,
+    id,
+    createdAt: new Date(),
+    updatedAt: new Date(),
+  });
+
+  return id;
 }
 
-// Documenti
-export async function getAllDocuments(relatedId?: string) {
+// ===== DOCUMENTS =====
+
+export async function getAllDocuments() {
   const db = await getDb();
   if (!db) return [];
-  if (relatedId) {
-    return await db.select().from(documents).where(eq(documents.relatedId, relatedId));
-  }
   return await db.select().from(documents);
 }
 
-export async function createDocument(document: InsertDocument) {
+export async function getDocumentsByPolicyId(policyId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(documents).where(eq(documents.policyId, policyId));
+}
+
+export async function createDocument(documentData: InsertDocument) {
   const db = await getDb();
   if (!db) throw new Error("Database not available");
-  await db.insert(documents).values(document);
-  return document;
+
+  const id = `doc_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  await db.insert(documents).values({
+    ...documentData,
+    id,
+    createdAt: new Date(),
+  });
+
+  return id;
 }
+
+// ===== NOTIFICATIONS =====
+
+export async function createNotification(notificationData: InsertNotification) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const id = `notif_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  await db.insert(notifications).values({
+    ...notificationData,
+    id,
+    createdAt: new Date(),
+  });
+
+  return id;
+}
+
+export async function getUserNotifications(userId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(notifications).where(eq(notifications.userId, userId));
+}
+
+// ===== COMMISSIONS =====
+
+export async function getCommissionsByAgentId(agentId: string) {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(commissions).where(eq(commissions.agentId, agentId));
+}
+
+export async function createCommission(commissionData: InsertCommission) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const id = `comm_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
+  
+  await db.insert(commissions).values({
+    ...commissionData,
+    id,
+    createdAt: new Date(),
+  });
+
+  return id;
+}
+
+// Legacy function for OAuth compatibility (will be removed after migration)
+export async function upsertUser(user: any) {
+  // This is a temporary bridge function
+  // Real authentication will use createUser/updateUser
+  console.warn("[Database] upsertUser called - this is a legacy function");
+}
+
+export async function getUser(id: string) {
+  return getUserById(id);
+}
+
