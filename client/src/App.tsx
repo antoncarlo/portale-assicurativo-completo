@@ -11,6 +11,8 @@ import Policies from "./pages/Policies";
 import NewPolicyWizard from "./pages/NewPolicyWizard";
 import Claims from "./pages/Claims";
 import Questionari from "./pages/Questionari";
+import Users from "./pages/Users";
+import Commissions from "./pages/Commissions";
 
 // Check if user is logged in
 function isAuthenticated() {
@@ -31,6 +33,8 @@ function Router() {
       <Route path="/policies">{() => <ProtectedRoute component={Policies} />}</Route>
       <Route path="/claims">{() => <ProtectedRoute component={Claims} />}</Route>
       <Route path="/questionari">{() => <ProtectedRoute component={Questionari} />}</Route>
+      <Route path="/users">{() => <ProtectedRoute component={Users} />}</Route>
+      <Route path="/commissions">{() => <ProtectedRoute component={Commissions} />}</Route>
       <Route path={"/404"} component={NotFound} />
       {/* Final fallback route */}
       <Route component={NotFound} />

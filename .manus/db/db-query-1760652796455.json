@@ -1,0 +1,9 @@
+{
+  "query": "INSERT INTO users (id, username, password, name, email, phone, role, isActive, commissionRate, createdAt) \nVALUES \n  ('user_admin_1', 'admin', '$2b$10$xzEAfZVqKmQPHNPrXNgZveKkCEBx5Nt9P65/uqvC3zCutvSUY.0ge', 'Amministratore', 'admin@portalebroker.it', '+39 333 1234567', 'admin', TRUE, 0, NOW()),\n  ('user_agent_1', 'agente1', '$2b$10$D6eTfz9irJ0LBmbo7hahT.8FKjeYryutI3kLnXBJadEe86888Hhi2', 'Mario Rossi', 'mario.rossi@portalebroker.it', '+39 333 7654321', 'admin', TRUE, 15, NOW()),\n  ('user_collab_1', 'collab1', '$2b$10$.ZlsvPMKp3NPcyZluHpppe3F8ZtrKPhFQ/NF7f62k/9q4dYFWzv2W', 'Laura Bianchi', 'laura.bianchi@portalebroker.it', '+39 333 9876543', 'admin', TRUE, 10, NOW())\nON DUPLICATE KEY UPDATE username=username;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3Gi72ak4Axa5NxU.root --database DNAARzbZDjem8LXmDXdbXn --execute INSERT INTO users (id, username, password, name, email, phone, role, isActive, commissionRate, createdAt) \nVALUES \n  ('user_admin_1', 'admin', '$2b$10$xzEAfZVqKmQPHNPrXNgZveKkCEBx5Nt9P65/uqvC3zCutvSUY.0ge', 'Amministratore', 'admin@portalebroker.it', '+39 333 1234567', 'admin', TRUE, 0, NOW()),\n  ('user_agent_1', 'agente1', '$2b$10$D6eTfz9irJ0LBmbo7hahT.8FKjeYryutI3kLnXBJadEe86888Hhi2', 'Mario Rossi', 'mario.rossi@portalebroker.it', '+39 333 7654321', 'admin', TRUE, 15, NOW()),\n  ('user_collab_1', 'collab1', '$2b$10$.ZlsvPMKp3NPcyZluHpppe3F8ZtrKPhFQ/NF7f62k/9q4dYFWzv2W', 'Laura Bianchi', 'laura.bianchi@portalebroker.it', '+39 333 9876543', 'admin', TRUE, 10, NOW())\nON DUPLICATE KEY UPDATE username=username;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 51
+}

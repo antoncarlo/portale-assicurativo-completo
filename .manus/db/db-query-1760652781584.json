@@ -1,0 +1,9 @@
+{
+  "query": "ALTER TABLE users ADD COLUMN username VARCHAR(100);\nALTER TABLE users ADD COLUMN password VARCHAR(255);\nALTER TABLE users ADD COLUMN phone VARCHAR(20);\nALTER TABLE users ADD COLUMN isActive BOOLEAN DEFAULT TRUE;\nALTER TABLE users ADD COLUMN parentAgentId VARCHAR(64);\nALTER TABLE users ADD COLUMN commissionRate INT DEFAULT 0;",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway02.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 3Gi72ak4Axa5NxU.root --database DNAARzbZDjem8LXmDXdbXn --execute ALTER TABLE users ADD COLUMN username VARCHAR(100);\nALTER TABLE users ADD COLUMN password VARCHAR(255);\nALTER TABLE users ADD COLUMN phone VARCHAR(20);\nALTER TABLE users ADD COLUMN isActive BOOLEAN DEFAULT TRUE;\nALTER TABLE users ADD COLUMN parentAgentId VARCHAR(64);\nALTER TABLE users ADD COLUMN commissionRate INT DEFAULT 0;",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 2059
+}
