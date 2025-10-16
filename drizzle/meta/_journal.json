@@ -15,6 +15,13 @@
       "when": 1760646853995,
       "tag": "0001_happy_wolverine",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1760648132240,
+      "tag": "0002_daffy_fenris",
+      "breakpoints": true
     }
   ]
 }

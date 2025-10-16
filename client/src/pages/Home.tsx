@@ -1,12 +1,62 @@
 import { trpc } from "@/lib/trpc";
-import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link, useLocation } from "wouter";
 
 export default function Home() {
   const { data: stats, isLoading } = trpc.policies.stats.useQuery();
+  const { data: claimsData } = trpc.claims.list.useQuery();
+  
+  const claimsCount = claimsData?.claims.length || 0;
+  const openClaims = claimsData?.claims.filter(c => c.status === "reported" || c.status === "under_review").length || 0;
+
+  const [location] = useLocation();
+
+  const navItems = [
+    { path: "/", label: "Dashboard", icon: "📊" },
+    { path: "/products", label: "Prodotti", icon: "📦" },
+    { path: "/policies", label: "Polizze", icon: "📋" },
+    { path: "/claims", label: "Sinistri", icon: "⚠️" },
+    { path: "/documents", label: "Documenti", icon: "📄" },
+  ];
 
   return (
-    <DashboardLayout>
+    <div className="min-h-screen bg-gray-50">
+      {/* Navbar */}
+      <nav className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <span className="text-xl font-semibold text-blue-600">
+                🏢 Portale Assicurativo - Demo
+              </span>
+            </div>
+          </div>
+        </div>
+      </nav>
+
+      {/* Tabs Navigation */}
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-2">
+            {navItems.map((item) => (
+              <Link key={item.path} href={item.path}>
+                <button
+                  className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
+                    location === item.path
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  {item.icon} {item.label}
+                </button>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="space-y-6">
         <div>
           <h2 className="text-3xl font-semibold text-gray-900">Dashboard</h2>
@@ -14,6 +64,7 @@ export default function Home() {
 
         {/* Stats Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {/* Polizze Stats */}
           <Card>
             <CardHeader className="flex flex-row items-center justify-between pb-2">
               <CardTitle className="text-sm font-medium text-gray-600">
@@ -77,6 +128,94 @@ export default function Home() {
               </div>
             </CardContent>
           </Card>
+
+          {/* Sinistri Stats */}
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">
+                Sinistri Totali
+              </CardTitle>
+              <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center">
+                <span className="text-2xl">⚠️</span>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-semibold text-gray-900">
+                {claimsCount}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader className="flex flex-row items-center justify-between pb-2">
+              <CardTitle className="text-sm font-medium text-gray-600">
+                Sinistri Aperti
+              </CardTitle>
+              <div className="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
+                <span className="text-2xl">🔔</span>
+              </div>
+            </CardHeader>
+            <CardContent>
+              <div className="text-3xl font-semibold text-gray-900">
+                {openClaims}
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+
+        {/* Quick Stats Row */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Distribuzione Polizze per Stato</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                {stats?.by_status && Object.entries(stats.by_status).map(([status, count]) => (
+                  <div key={status} className="flex justify-between items-center">
+                    <span className="text-sm text-gray-600 capitalize">
+                      {status.replace(/_/g, " ")}
+                    </span>
+                    <span className="font-semibold">{count as number}</span>
+                  </div>
+                ))}
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Prodotti Attivi</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="text-center py-4">
+                <div className="text-4xl font-bold text-blue-600">7</div>
+                <p className="text-sm text-gray-600 mt-2">Prodotti assicurativi disponibili</p>
+              </div>
+            </CardContent>
+          </Card>
+
+          <Card>
+            <CardHeader>
+              <CardTitle className="text-lg">Performance</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="space-y-3">
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Tasso Conversione</span>
+                  <span className="font-semibold text-green-600">75%</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Tempo Medio Quotazione</span>
+                  <span className="font-semibold">2.5 giorni</span>
+                </div>
+                <div className="flex justify-between items-center">
+                  <span className="text-sm text-gray-600">Soddisfazione Cliente</span>
+                  <span className="font-semibold text-green-600">4.8/5</span>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Welcome Card */}
@@ -116,7 +255,8 @@ export default function Home() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
+      </main>
+    </div>
   );
 }
 

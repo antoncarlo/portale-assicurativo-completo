@@ -1,6 +1,6 @@
 import { eq } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { InsertUser, users, productTypes, policies, InsertPolicy } from "../drizzle/schema";
+import { InsertUser, users, productTypes, policies, InsertPolicy, claims, InsertClaim, documents, InsertDocument, notifications, InsertNotification } from "../drizzle/schema";
 import { ENV } from './_core/env';
 
 let _db: ReturnType<typeof drizzle> | null = null;
@@ -146,4 +146,42 @@ export async function getPolicyStats(userId?: string) {
     byStatus,
     totalPremium
   };
+}
+
+// Sinistri
+export async function getAllClaims() {
+  const db = await getDb();
+  if (!db) return [];
+  return await db.select().from(claims);
+}
+
+export async function getClaimById(id: string) {
+  const db = await getDb();
+  if (!db) return undefined;
+  const result = await db.select().from(claims).where(eq(claims.id, id)).limit(1);
+  return result.length > 0 ? result[0] : undefined;
+}
+
+export async function createClaim(claim: InsertClaim) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(claims).values(claim);
+  return claim;
+}
+
+// Documenti
+export async function getAllDocuments(relatedId?: string) {
+  const db = await getDb();
+  if (!db) return [];
+  if (relatedId) {
+    return await db.select().from(documents).where(eq(documents.relatedId, relatedId));
+  }
+  return await db.select().from(documents);
+}
+
+export async function createDocument(document: InsertDocument) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+  await db.insert(documents).values(document);
+  return document;
 }

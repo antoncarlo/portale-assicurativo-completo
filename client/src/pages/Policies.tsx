@@ -1,6 +1,6 @@
 import { trpc } from "@/lib/trpc";
-import DashboardLayout from "@/components/DashboardLayout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Link, useLocation } from "wouter";
 import { Badge } from "@/components/ui/badge";
 import {
   Table,
@@ -24,8 +24,49 @@ const statusMap: Record<string, { label: string; variant: "default" | "secondary
 export default function Policies() {
   const { data, isLoading } = trpc.policies.list.useQuery();
 
+  const [location] = useLocation();
+
+  const navItems = [
+    { path: "/", label: "Dashboard", icon: "📊" },
+    { path: "/products", label: "Prodotti", icon: "📦" },
+    { path: "/policies", label: "Polizze", icon: "📋" },
+    { path: "/claims", label: "Sinistri", icon: "⚠️" },
+    { path: "/documents", label: "Documenti", icon: "📄" },
+  ];
+
   return (
-    <DashboardLayout>
+    <div className="min-h-screen bg-gray-50">
+      <nav className="bg-white shadow-sm border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex justify-between h-16">
+            <div className="flex items-center">
+              <span className="text-xl font-semibold text-blue-600">
+                🏢 Portale Assicurativo - Demo
+              </span>
+            </div>
+          </div>
+        </div>
+      </nav>
+      <div className="bg-white border-b">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex gap-2">
+            {navItems.map((item) => (
+              <Link key={item.path} href={item.path}>
+                <button
+                  className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
+                    location === item.path
+                      ? "border-blue-600 text-blue-600"
+                      : "border-transparent text-gray-600 hover:text-gray-900"
+                  }`}
+                >
+                  {item.icon} {item.label}
+                </button>
+              </Link>
+            ))}
+          </div>
+        </div>
+      </div>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <div className="space-y-6">
         <div>
           <h2 className="text-3xl font-semibold text-gray-900">Polizze</h2>
@@ -79,7 +120,8 @@ export default function Policies() {
           </CardContent>
         </Card>
       </div>
-    </DashboardLayout>
+      </main>
+    </div>
   );
 }
 

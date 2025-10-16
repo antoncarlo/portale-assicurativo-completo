@@ -64,3 +64,68 @@ export const policyData = mysqlTable("policy_data", {
 
 export type PolicyData = typeof policyData.$inferSelect;
 export type InsertPolicyData = typeof policyData.$inferInsert;
+
+// Sinistri
+export const claims = mysqlTable("claims", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  claimNumber: varchar("claimNumber", { length: 100 }).unique(),
+  policyId: varchar("policyId", { length: 64 }).notNull(),
+  claimDate: timestamp("claimDate").notNull(),
+  description: text("description"),
+  status: mysqlEnum("status", ["reported", "under_review", "approved", "rejected", "paid", "closed"]).default("reported").notNull(),
+  claimAmount: varchar("claimAmount", { length: 20 }),
+  paidAmount: varchar("paidAmount", { length: 20 }),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow(),
+});
+
+export type Claim = typeof claims.$inferSelect;
+export type InsertClaim = typeof claims.$inferInsert;
+
+// Documenti
+export const documents = mysqlTable("documents", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  fileName: varchar("fileName", { length: 255 }).notNull(),
+  fileUrl: text("fileUrl").notNull(),
+  fileSize: varchar("fileSize", { length: 20 }),
+  mimeType: varchar("mimeType", { length: 100 }),
+  category: mysqlEnum("category", ["policy", "claim", "quote", "other"]).default("other").notNull(),
+  relatedId: varchar("relatedId", { length: 64 }),
+  uploadedBy: varchar("uploadedBy", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export type Document = typeof documents.$inferSelect;
+export type InsertDocument = typeof documents.$inferInsert;
+
+// Notifiche
+export const notifications = mysqlTable("notifications", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  userId: varchar("userId", { length: 64 }).notNull(),
+  title: varchar("title", { length: 255 }).notNull(),
+  message: text("message"),
+  type: mysqlEnum("type", ["info", "warning", "success", "error"]).default("info").notNull(),
+  read: mysqlEnum("read", ["yes", "no"]).default("no").notNull(),
+  relatedId: varchar("relatedId", { length: 64 }),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export type Notification = typeof notifications.$inferSelect;
+export type InsertNotification = typeof notifications.$inferInsert;
+
+// Provvigioni
+export const commissions = mysqlTable("commissions", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  policyId: varchar("policyId", { length: 64 }).notNull(),
+  userId: varchar("userId", { length: 64 }).notNull(),
+  amount: varchar("amount", { length: 20 }).notNull(),
+  percentage: varchar("percentage", { length: 10 }),
+  status: mysqlEnum("status", ["pending", "approved", "paid"]).default("pending").notNull(),
+  paidDate: timestamp("paidDate"),
+  notes: text("notes"),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export type Commission = typeof commissions.$inferSelect;
+export type InsertCommission = typeof commissions.$inferInsert;

@@ -25,7 +25,7 @@ export const appRouter = router({
   }),
 
   policies: router({
-    list: protectedProcedure.query(async ({ ctx }) => {
+    list: publicProcedure.query(async () => {
       const { getAllPolicies } = await import("./db");
       const allPolicies = await getAllPolicies();
       const { getAllProducts } = await import("./db");
@@ -52,7 +52,83 @@ export const appRouter = router({
         total_premium: stats.totalPremium
       };
     }),
+    
+    create: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { createPolicy } = await import("./db");
+        const { randomUUID } = await import("crypto");
+        
+        const newPolicy = {
+          id: randomUUID(),
+          policyNumber: null,
+          productTypeId: input.productTypeId,
+          userId: "demo-user",
+          clientName: input.clientName,
+          clientEmail: input.clientEmail || null,
+          clientPhone: input.clientPhone || null,
+          status: "quote_requested" as const,
+          premiumAmount: null,
+          startDate: null,
+          endDate: null,
+          notes: input.notes || null,
+        };
+        
+        await createPolicy(newPolicy);
+        return { success: true, policy: newPolicy };
+      }),
+  }),
+
+  claims: router({
+    list: publicProcedure.query(async () => {
+      const { getAllClaims } = await import("./db");
+      const allClaims = await getAllClaims();
+      const { getAllPolicies } = await import("./db");
+      const allPolicies = await getAllPolicies();
+      
+      const claimsWithPolicy = allClaims.map(claim => {
+        const policy = allPolicies.find(p => p.id === claim.policyId);
+        return {
+          ...claim,
+          policy: policy || null
+        };
+      });
+      
+      return { claims: claimsWithPolicy };
+    }),
+    
+    create: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { createClaim } = await import("./db");
+        const { randomUUID } = await import("crypto");
+        
+        const newClaim = {
+          id: randomUUID(),
+          claimNumber: `CLM-${Date.now()}`,
+          policyId: input.policyId,
+          claimDate: new Date(input.claimDate),
+          description: input.description,
+          status: "reported" as const,
+          claimAmount: input.claimAmount || null,
+          paidAmount: null,
+          notes: input.notes || null,
+        };
+        
+        await createClaim(newClaim);
+        return { success: true, claim: newClaim };
+      }),
+  }),
+
+  documents: router({
+    list: publicProcedure
+      .input((input: any) => input || {})
+      .query(async ({ input }) => {
+        const { getAllDocuments } = await import("./db");
+        return await getAllDocuments(input.relatedId);
+      }),
   }),
 });
+
 
 export type AppRouter = typeof appRouter;
