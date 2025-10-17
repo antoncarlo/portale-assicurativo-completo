@@ -53,7 +53,10 @@ export default function PolicyDetail() {
   const deletePolicy = trpc.policies.delete.useMutation({
     onSuccess: () => {
       toast.success("Polizza eliminata!");
-      window.location.href = "/policies";
+      // Force reload per aggiornare la lista
+      setTimeout(() => {
+        window.location.href = "/policies";
+      }, 500);
     },
   });
 
@@ -190,14 +193,20 @@ export default function PolicyDetail() {
                           </div>
                           {comm.content && <p className="text-gray-900 whitespace-pre-wrap">{comm.content}</p>}
                           {comm.documentUrl && (
-                            <a
-                              href={comm.documentUrl}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="inline-flex items-center gap-1 text-blue-600 hover:underline mt-2"
+                            <button
+                              onClick={() => {
+                                // Gestione download per data URL e blob URL
+                                const link = document.createElement('a');
+                                link.href = comm.documentUrl;
+                                link.download = comm.documentName || 'documento';
+                                document.body.appendChild(link);
+                                link.click();
+                                document.body.removeChild(link);
+                              }}
+                              className="inline-flex items-center gap-1 text-blue-600 hover:underline mt-2 cursor-pointer bg-transparent border-none"
                             >
-                              📎 {comm.documentName}
-                            </a>
+                              📥 {comm.documentName}
+                            </button>
                           )}
                         </div>
                       </div>

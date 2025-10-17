@@ -134,3 +134,21 @@ export const commissions = mysqlTable("commissions", {
 export type Commission = typeof commissions.$inferSelect;
 export type InsertCommission = typeof commissions.$inferInsert;
 
+
+// Comunicazioni polizze (note, documenti, aggiornamenti)
+export const policyCommunications = mysqlTable("policy_communications", {
+  id: varchar("id", { length: 64 }).primaryKey(),
+  policyId: varchar("policyId", { length: 64 }).notNull(),
+  userId: varchar("userId", { length: 64 }).notNull(),
+  userName: varchar("userName", { length: 255 }),
+  userRole: varchar("userRole", { length: 50 }),
+  type: mysqlEnum("type", ["note", "document", "status_change"]).default("note").notNull(),
+  content: text("content"),
+  documentUrl: varchar("documentUrl", { length: 500 }),
+  documentName: varchar("documentName", { length: 255 }),
+  createdAt: timestamp("createdAt").defaultNow(),
+});
+
+export type PolicyCommunication = typeof policyCommunications.$inferSelect;
+export type InsertPolicyCommunication = typeof policyCommunications.$inferInsert;
+

@@ -4,6 +4,7 @@ import {
   users, InsertUser,
   productTypes, InsertProductType,
   policies, InsertPolicy,
+  policyCommunications,
   claims, InsertClaim,
   documents, InsertDocument,
   notifications, InsertNotification,
@@ -33,11 +34,21 @@ export async function createUser(userData: InsertUser) {
 
   const id = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
   
-  await db.insert(users).values({
-    ...userData,
+  // Prepara i dati utente con solo i campi definiti nello schema
+  const userToInsert: any = {
     id,
-    createdAt: new Date(),
-  });
+    username: userData.username,
+    password: userData.password,
+    email: userData.email,
+    name: userData.name || null,
+    phone: userData.phone || null,
+    role: userData.role || "agent",
+    isActive: userData.isActive !== undefined ? userData.isActive : true,
+    parentAgentId: userData.parentAgentId || null,
+    commissionRate: userData.commissionRate || 0,
+  };
+  
+  await db.insert(users).values(userToInsert);
 
   return id;
 }
