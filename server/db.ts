@@ -338,3 +338,23 @@ export async function getUser(id: string) {
   return getUserById(id);
 }
 
+// Toggle User Active Status
+export async function toggleUserActive(userId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Get current user
+  const [user] = await db.select().from(users).where(eq(users.id, userId));
+  if (!user) throw new Error("User not found");
+
+  // Toggle active status
+  await db.update(users)
+    .set({
+      isActive: !user.isActive,
+      updatedAt: new Date(),
+    })
+    .where(eq(users.id, userId));
+
+  return { success: true, isActive: !user.isActive };
+}
+

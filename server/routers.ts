@@ -178,6 +178,28 @@ export const appRouter = router({
       return { documents: await getAllDocuments() };
     }),
   }),
+
+  users: router({
+    list: publicProcedure.query(async () => {
+      const { getAllUsers } = await import("./db");
+      const users = await getAllUsers();
+      return { users };
+    }),
+    
+    update: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { updateUser } = await import("./db");
+        return await updateUser(input.id, input);
+      }),
+    
+    toggleActive: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { toggleUserActive } = await import("./db");
+        return await toggleUserActive(input.id);
+      }),
+  }),
 });
 
 

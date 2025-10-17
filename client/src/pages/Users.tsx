@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, Di
 import { trpc } from "@/lib/trpc";
 import { useEffect } from "react";
 import { useLocation } from "wouter";
+import { toast } from "sonner";
 
 // navItems will be defined after currentUser
 
@@ -37,10 +38,30 @@ export default function Users() {
     }
   }, [currentUser.role, setLocation]);
 
+  // Query per caricare utenti
+  const { data: usersData, refetch } = trpc.users.list.useQuery();
+  
+  // Mutation per modificare utente
+  const updateUserMutation = trpc.users.update.useMutation({
+    onSuccess: () => {
+      toast.success("Utente aggiornato!");
+      refetch();
+    },
+  });
+  
+  // Mutation per disattivare/attivare utente
+  const toggleActiveMutation = trpc.users.toggleActive.useMutation({
+    onSuccess: () => {
+      toast.success("Stato utente aggiornato!");
+      refetch();
+    },
+  });
+
   const registerMutation = trpc.customAuth.register.useMutation({
     onSuccess: () => {
-      alert("✅ Utente creato con successo!");
+      toast.success("✅ Utente creato con successo!");
       setIsCreateDialogOpen(false);
+      refetch(); // Ricarica lista utenti
       setNewUser({
         username: "",
         password: "",
@@ -71,11 +92,8 @@ export default function Users() {
   };
 
   // Mock users data - in produzione verrebbe dal database
-  const allUsers = [
-    { id: "1", username: "admin", name: "Amministratore", email: "admin@portalebroker.it", phone: "+39 333 1234567", role: "admin", isActive: true, commissionRate: 0, createdAt: "2025-01-15" },
-    { id: "2", username: "agente1", name: "Mario Rossi", email: "mario.rossi@portalebroker.it", phone: "+39 333 7654321", role: "agent", isActive: true, commissionRate: 15, createdAt: "2025-01-16" },
-    { id: "3", username: "collab1", name: "Laura Bianchi", email: "laura.bianchi@portalebroker.it", phone: "+39 333 9876543", role: "collaborator", isActive: true, commissionRate: 10, createdAt: "2025-01-17" },
-  ];
+  // Carica utenti dal database
+  const allUsers = usersData?.users || [];
 
   // Collaboratore vede solo se stesso
   const users = currentUser.role === "collaborator" 
@@ -387,10 +405,23 @@ export default function Users() {
                         {/* Collaboratore non può modificare utenti */}
                         {currentUser.role !== "collaborator" && (
                           <div className="flex space-x-2">
-                            <Button variant="outline" size="sm" className="text-blue-600">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="text-blue-600"
+                              onClick={() => {
+                                // TODO: Aprire dialog modifica utente
+                                toast.info("Funzione modifica in arrivo!");
+                              }}
+                            >
                               ✏️ Modifica
                             </Button>
-                            <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+                            <Button 
+                              variant="outline" 
+                              size="sm" 
+                              className="text-red-600 hover:text-red-700"
+                              onClick={() => toggleActiveMutation.mutate({ id: user.id })}
+                            >
                               {user.isActive ? "🚫 Disattiva" : "✓ Attiva"}
                             </Button>
                           </div>
