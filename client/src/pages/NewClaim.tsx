@@ -61,17 +61,7 @@ export default function NewClaim() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <span className="text-2xl mr-2">🛡️</span>
-              <span className="text-xl font-semibold text-blue-600">Portale Broker</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header activeTab="Nuovo Sinistro" />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">

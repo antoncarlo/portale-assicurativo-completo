@@ -18,7 +18,7 @@ export function exportCommissionsToExcel(commissions: any[]) {
     'N. Polizza': c.policyNumber,
     Cliente: c.clientName,
     Premio: `€${c.premium.toLocaleString()}`,
-    'Tasso %': `${c.rate}%`,
+    '%Provvigioni': `${c.rate}%`,
     Provvigione: `€${c.amount.toLocaleString()}`,
     Stato: c.status === 'paid' ? 'Pagata' : 'In Attesa',
   }));

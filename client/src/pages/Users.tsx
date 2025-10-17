@@ -61,11 +61,16 @@ export default function Users() {
   };
 
   // Mock users data - in produzione verrebbe dal database
-  const users = [
+  const allUsers = [
     { id: "1", username: "admin", name: "Amministratore", email: "admin@portalebroker.it", phone: "+39 333 1234567", role: "admin", isActive: true, commissionRate: 0, createdAt: "2025-01-15" },
     { id: "2", username: "agente1", name: "Mario Rossi", email: "mario.rossi@portalebroker.it", phone: "+39 333 7654321", role: "agent", isActive: true, commissionRate: 15, createdAt: "2025-01-16" },
     { id: "3", username: "collab1", name: "Laura Bianchi", email: "laura.bianchi@portalebroker.it", phone: "+39 333 9876543", role: "collaborator", isActive: true, commissionRate: 10, createdAt: "2025-01-17" },
   ];
+
+  // Collaboratore vede solo se stesso
+  const users = currentUser.role === "collaborator" 
+    ? allUsers.filter(u => u.username === currentUser.username)
+    : allUsers;
 
   const getRoleBadge = (role: string) => {
     const colors: any = {
@@ -155,13 +160,15 @@ export default function Users() {
             <p className="text-gray-600 mt-1">Crea e gestisci gli account di agenti e collaboratori</p>
           </div>
           
-          <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
-            <DialogTrigger asChild>
-              <Button className="bg-blue-600 hover:bg-blue-700">
-                <span className="mr-2">➕</span>
-                Crea Nuovo Utente
-              </Button>
-            </DialogTrigger>
+          {/* Collaboratore non può creare utenti */}
+          {currentUser.role !== "collaborator" && (
+            <Dialog open={isCreateDialogOpen} onOpenChange={setIsCreateDialogOpen}>
+              <DialogTrigger asChild>
+                <Button className="bg-blue-600 hover:bg-blue-700">
+                  <span className="mr-2">➕</span>
+                  Crea Nuovo Utente
+                </Button>
+              </DialogTrigger>
             <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
               <DialogHeader>
                 <DialogTitle>Crea Nuovo Utente</DialogTitle>
@@ -233,10 +240,17 @@ export default function Users() {
                       <SelectValue />
                     </SelectTrigger>
                     <SelectContent>
-                      <SelectItem value="agent">Agente</SelectItem>
-                      <SelectItem value="collaborator">Collaboratore</SelectItem>
-                      {(currentUser.role === "master" || currentUser.role === "admin") && (
-                        <SelectItem value="admin">Amministratore</SelectItem>
+                      {/* Agente può creare solo Collaboratori */}
+                      {currentUser.role === "agent" ? (
+                        <SelectItem value="collaborator">Collaboratore</SelectItem>
+                      ) : (
+                        <>
+                          <SelectItem value="agent">Agente</SelectItem>
+                          <SelectItem value="collaborator">Collaboratore</SelectItem>
+                          {(currentUser.role === "master" || currentUser.role === "admin") && (
+                            <SelectItem value="admin">Amministratore</SelectItem>
+                          )}
+                        </>
                       )}
                     </SelectContent>
                   </Select>
@@ -273,7 +287,8 @@ export default function Users() {
                 </Button>
               </div>
             </DialogContent>
-          </Dialog>
+            </Dialog>
+          )}
         </div>
 
         {/* Stats Cards */}
@@ -353,14 +368,17 @@ export default function Users() {
                         </span>
                       </td>
                       <td className="px-4 py-3 text-sm">
-                        <div className="flex space-x-2">
-                          <Button variant="outline" size="sm" className="text-blue-600">
-                            ✏️ Modifica
-                          </Button>
-                          <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
-                            {user.isActive ? "🚫 Disattiva" : "✓ Attiva"}
-                          </Button>
-                        </div>
+                        {/* Collaboratore non può modificare utenti */}
+                        {currentUser.role !== "collaborator" && (
+                          <div className="flex space-x-2">
+                            <Button variant="outline" size="sm" className="text-blue-600">
+                              ✏️ Modifica
+                            </Button>
+                            <Button variant="outline" size="sm" className="text-red-600 hover:text-red-700">
+                              {user.isActive ? "🚫 Disattiva" : "✓ Attiva"}
+                            </Button>
+                          </div>
+                        )}
                       </td>
                     </tr>
                   ))}

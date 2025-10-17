@@ -6,6 +6,7 @@ import { getNavItemsForRole } from "@/components/Navigation";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Notifications } from "@/components/Notifications";
 import { Button } from "@/components/ui/button";
+import Header from "@/components/Header";
 import { exportToExcel } from "@/utils/export";
 import {
   Table,
@@ -34,17 +35,7 @@ export default function Claims() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <span className="text-xl font-semibold text-blue-600">
-                🏢 Portale Assicurativo - Demo
-              </span>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header activeTab="Sinistri" />
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex gap-2">

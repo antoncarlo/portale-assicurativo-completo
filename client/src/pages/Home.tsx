@@ -4,6 +4,7 @@ import { Link, useLocation } from "wouter";
 import { getNavItemsForRole } from "@/components/Navigation";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Notifications } from "@/components/Notifications";
+import Header from "@/components/Header";
 
 export default function Home() {
   const { user: currentUser } = useAuth();
@@ -18,18 +19,8 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Navbar */}
-      <nav className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            <div className="flex items-center">
-              <span className="text-xl font-semibold text-blue-600">
-                🏢 Portale Assicurativo - Demo
-              </span>
-            </div>
-          </div>
-        </div>
-      </nav>
+      {/* Header con profilo e logout */}
+      <Header activeTab="Dashboard" />
 
       {/* Tabs Navigation */}
       <div className="bg-white border-b">

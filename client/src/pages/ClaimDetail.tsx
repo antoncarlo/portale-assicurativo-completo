@@ -9,6 +9,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Input } from "@/components/ui/input";
 import { useState } from "react";
+import Header from "@/components/Header";
 
 const statusMap: Record<string, { label: string; variant: "default" | "secondary" | "destructive" | "outline" }> = {
   reported: { label: "Segnalato", variant: "secondary" },
@@ -67,17 +68,7 @@ export default function ClaimDetail() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <div className="bg-gradient-to-r from-blue-700 to-blue-900 text-white shadow-lg">
-        <div className="container mx-auto px-4 py-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center">
-              <span className="text-2xl mr-2">🛡️</span>
-              <span className="text-xl font-semibold">Portale Broker</span>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Header activeTab="Dettaglio Sinistro" />
 
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
