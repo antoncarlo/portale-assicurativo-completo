@@ -8,6 +8,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { trpc } from "@/lib/trpc";
+import { useEffect } from "react";
+import { useLocation } from "wouter";
 
 // navItems will be defined after currentUser
 
@@ -26,6 +28,14 @@ export default function Users() {
 
   const currentUser = JSON.parse(localStorage.getItem("currentUser") || "{}");
   const navItems = getNavItemsForRole(currentUser.role || "collaborator");
+  const [, setLocation] = useLocation();
+
+  // Redirect se non è Master o Admin
+  useEffect(() => {
+    if (currentUser.role !== "master" && currentUser.role !== "admin") {
+      setLocation("/");
+    }
+  }, [currentUser.role, setLocation]);
 
   const registerMutation = trpc.customAuth.register.useMutation({
     onSuccess: () => {
