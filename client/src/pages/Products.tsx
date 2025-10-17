@@ -5,16 +5,7 @@ import { getNavItemsForRole } from "@/components/Navigation";
 import { useAuth } from "@/_core/hooks/useAuth";
 import { Notifications } from "@/components/Notifications";
 import Header from "@/components/Header";
-
-const iconMap: Record<string, string> = {
-  Construction: "🏗️",
-  SolarPower: "☀️",
-  Engineering: "⚙️",
-  Store: "🏪",
-  Pets: "🐾",
-  Home: "🏠",
-  Gavel: "⚖️",
-};
+import { productIconsMap, productColorsMap } from "@/utils/productIcons";
 
 export default function Products() {
   const { user: currentUser } = useAuth();
@@ -40,7 +31,7 @@ export default function Products() {
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.name}
+                  {item.iconImage && (<img src={item.iconImage} alt={item.name} className="w-5 h-5 object-contain opacity-70" />)} {item.name}
                 </button>
               </Link>
             ))}
@@ -76,12 +67,14 @@ export default function Products() {
                 className="hover:shadow-lg transition-shadow cursor-pointer"
               >
                 <CardHeader>
-                  <div className="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center mb-4">
-                    <span className="text-2xl">
-                      {iconMap[product.icon || ""] || "📦"}
-                    </span>
+                  <div className={`w-20 h-20 rounded-xl bg-gradient-to-br ${productColorsMap[product.icon || ""] || "from-blue-500 to-blue-700"} flex items-center justify-center mb-4 p-3 shadow-lg`}>
+                    <img 
+                      src={productIconsMap[product.icon || ""] || "/icone/prodotti.png"} 
+                      alt={product.name} 
+                      className="w-full h-full object-contain filter brightness-0 invert"
+                    />
                   </div>
-                  <CardTitle className="text-xl">{product.name}</CardTitle>
+                  <CardTitle className="text-xl font-bold">{product.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-gray-600">

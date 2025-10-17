@@ -29,13 +29,20 @@ export default function Home() {
             {navItems.map((item) => (
               <Link key={item.path} href={item.path}>
                 <button
-                  className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors ${
+                  className={`px-6 py-3 text-sm font-medium border-b-2 transition-colors flex items-center gap-2 ${
                     location === item.path
                       ? "border-blue-600 text-blue-600"
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.name}
+                  {item.iconImage && (
+                    <img 
+                      src={item.iconImage} 
+                      alt={item.name} 
+                      className="w-5 h-5 object-contain opacity-70"
+                    />
+                  )}
+                  {item.name}
                 </button>
               </Link>
             ))}
@@ -58,8 +65,8 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Totale Polizze
               </CardTitle>
-              <div className="w-12 h-12 rounded-lg bg-blue-100 flex items-center justify-center">
-                <span className="text-2xl">📋</span>
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-2">
+                <img src="/icone/totale_polizze.png" alt="Totale Polizze" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
             <CardContent>
@@ -74,8 +81,8 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Polizze Attive
               </CardTitle>
-              <div className="w-12 h-12 rounded-lg bg-green-100 flex items-center justify-center">
-                <span className="text-2xl">✅</span>
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-2">
+                <img src="/icone/polizze_attive.png" alt="Polizze Attive" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
             <CardContent>
@@ -90,8 +97,8 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 In Quotazione
               </CardTitle>
-              <div className="w-12 h-12 rounded-lg bg-orange-100 flex items-center justify-center">
-                <span className="text-2xl">⏳</span>
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-2">
+                <img src="/icone/in_quotazione.png" alt="In Quotazione" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
             <CardContent>
@@ -106,8 +113,8 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Premi Totali
               </CardTitle>
-              <div className="w-12 h-12 rounded-lg bg-purple-100 flex items-center justify-center">
-                <span className="text-2xl">💰</span>
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center p-2">
+                <img src="/icone/premi_totali.png" alt="Premi Totali" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
             <CardContent>
@@ -123,8 +130,8 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Sinistri Totali
               </CardTitle>
-              <div className="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center">
-                <span className="text-2xl">⚠️</span>
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center p-2">
+                <img src="/icone/sinistri_totali.png" alt="Sinistri Totali" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
             <CardContent>
@@ -139,8 +146,8 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Sinistri Aperti
               </CardTitle>
-              <div className="w-12 h-12 rounded-lg bg-yellow-100 flex items-center justify-center">
-                <span className="text-2xl">🔔</span>
+              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-2">
+                <img src="/icone/sinistri_aperti.png" alt="Sinistri Aperti" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
             <CardContent>

@@ -104,7 +104,7 @@ export default function Questionari() {
                       : "border-transparent text-gray-600 hover:text-gray-900"
                   }`}
                 >
-                  {item.icon} {item.name}
+                  {item.iconImage && (<img src={item.iconImage} alt={item.name} className="w-5 h-5 object-contain opacity-70" />)} {item.name}
                 </button>
               </Link>
             ))}
