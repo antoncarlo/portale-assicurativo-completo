@@ -35,7 +35,25 @@ export default function PolicyDetail() {
       toast.success("Comunicazione aggiunta!");
       setNewNote("");
       setNewDocuments([]);
+      // Force refetch communications
+      setTimeout(() => refetch(), 500);
+    },
+    onError: (error) => {
+      toast.error("Errore nell'aggiunta della comunicazione: " + error.message);
+    },
+  });
+
+  const updateStatus = trpc.policies.updateStatus.useMutation({
+    onSuccess: () => {
+      toast.success("Stato aggiornato!");
       refetch();
+    },
+  });
+
+  const deletePolicy = trpc.policies.delete.useMutation({
+    onSuccess: () => {
+      toast.success("Polizza eliminata!");
+      window.location.href = "/policies";
     },
   });
 
@@ -134,7 +152,10 @@ export default function PolicyDetail() {
                   <CardTitle>Note Polizza</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-gray-700">{policy.notes}</p>
+                  <div 
+                    className="text-sm text-gray-700 prose prose-sm max-w-none"
+                    dangerouslySetInnerHTML={{ __html: policy.notes || "" }}
+                  />
                 </CardContent>
               </Card>
             )}
@@ -243,13 +264,52 @@ export default function PolicyDetail() {
                   <CardTitle>Azioni Admin</CardTitle>
                 </CardHeader>
                 <CardContent className="space-y-2">
-                  <Button variant="outline" className="w-full">
-                    ✏️ Modifica Polizza
-                  </Button>
-                  <Button variant="outline" className="w-full">
-                    📧 Invia Email Cliente
-                  </Button>
-                  <Button variant="destructive" className="w-full">
+                  {policy.status === "quote_requested" && (
+                    <>
+                      <Button 
+                        variant="default" 
+                        className="w-full bg-green-600 hover:bg-green-700"
+                        onClick={() => updateStatus.mutate({ id: policyId!, status: "in_quotation" })}
+                      >
+                        ✅ Autorizza Polizza
+                      </Button>
+                      <Button 
+                        variant="destructive" 
+                        className="w-full"
+                        onClick={() => updateStatus.mutate({ id: policyId!, status: "cancelled" })}
+                      >
+                        ❌ Boccia Polizza
+                      </Button>
+                    </>
+                  )}
+                  {policy.status === "in_quotation" && (
+                    <Button 
+                      variant="default" 
+                      className="w-full"
+                      onClick={() => updateStatus.mutate({ id: policyId!, status: "quoted" })}
+                    >
+                      📝 Segna come Quotata
+                    </Button>
+                  )}
+                  {policy.status === "quoted" && (
+                    <Button 
+                      variant="default" 
+                      className="w-full bg-green-600 hover:bg-green-700"
+                      onClick={() => updateStatus.mutate({ id: policyId!, status: "active" })}
+                    >
+                      ✅ Attiva Polizza
+                    </Button>
+                  )}
+                  <Separator />
+                  <Button 
+                    variant="destructive" 
+                    className="w-full"
+                    onClick={() => {
+                      if (confirm("Sei sicuro di voler eliminare questa polizza?")) {
+                        deletePolicy.mutate(policyId!);
+                      }
+                    }}
+                  >
                     🗑️ Elimina Polizza
                   </Button>
                 </CardContent>

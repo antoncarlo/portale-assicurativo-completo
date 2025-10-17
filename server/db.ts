@@ -132,6 +132,35 @@ export async function createPolicy(policyData: InsertPolicy) {
   return id;
 }
 
+export async function updatePolicy(policyId: string, updates: Partial<InsertPolicy>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(policies)
+    .set({
+      ...updates,
+      updatedAt: new Date(),
+    })
+    .where(eq(policies.id, policyId));
+
+  return { success: true };
+}
+
+export async function deletePolicy(policyId: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Delete communications first (foreign key)
+  await db.delete(policyCommunications)
+    .where(eq(policyCommunications.policyId, policyId));
+  
+  // Delete policy
+  await db.delete(policies)
+    .where(eq(policies.id, policyId));
+
+  return { success: true };
+}
+
 export async function getPolicyStats() {
   const db = await getDb();
   if (!db) return {

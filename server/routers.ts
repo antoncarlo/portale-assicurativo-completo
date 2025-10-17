@@ -101,6 +101,20 @@ export const appRouter = router({
         await createPolicy(newPolicy);
         return { success: true, policy: newPolicy };
       }),
+    
+    updateStatus: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { updatePolicy } = await import("./db");
+        return await updatePolicy(input.id, { status: input.status });
+      }),
+    
+    delete: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { deletePolicy } = await import("./db");
+        return await deletePolicy(input);
+      }),
   }),
 
   claims: router({
