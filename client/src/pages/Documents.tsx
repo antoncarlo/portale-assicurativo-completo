@@ -24,11 +24,11 @@ export default function Documents() {
 
   const [location] = useLocation();
   const navItems = [
-    { path: "/", label: "Dashboard", icon: "📊" },
-    { path: "/products", label: "Prodotti", icon: "📦" },
-    { path: "/policies", label: "Polizze", icon: "📋" },
-    { path: "/claims", label: "Sinistri", icon: "⚠️" },
-    { path: "/documents", label: "Documenti", icon: "📄" },
+    { path: "/", label: "Dashboard", icon: "📊", iconImage: "/icone/dashboard.png" },
+    { path: "/products", label: "Prodotti", icon: "📦", iconImage: "/icone/prodotti.png" },
+    { path: "/policies", label: "Polizze", icon: "📋", iconImage: "/icone/polizze.png" },
+    { path: "/claims", label: "Sinistri", icon: "⚠️", iconImage: "/icone/sinistri.png" },
+    { path: "/documents", label: "Documenti", icon: "📄", iconImage: "/icone/prodotti.png" },
   ];
 
   return (
@@ -73,7 +73,7 @@ export default function Documents() {
                 </div>
               ) : !documents?.documents || documents.documents.length === 0 ? (
                 <div className="text-center py-12">
-                  <div className="text-6xl mb-4">📄</div>
+                  <img src="/icone/prodotti.png" alt="Documenti" className="w-32 h-32 object-contain mb-4 mx-auto" />
                   <p className="text-gray-500 mb-4">Nessun documento caricato</p>
                   <Button>Carica il primo documento</Button>
                 </div>
@@ -128,7 +128,7 @@ export default function Documents() {
 
           <Card className="bg-blue-50 border-blue-200">
             <CardContent className="p-6">
-              <h3 className="font-semibold mb-2">💡 Funzionalità Upload Documenti</h3>
+              <h3 className="font-semibold mb-2">Funzionalità Upload Documenti</h3>
               <p className="text-sm text-gray-700">
                 La funzionalità di upload documenti con drag & drop e integrazione S3 
                 sarà implementata nel prossimo aggiornamento. Per ora puoi visualizzare 

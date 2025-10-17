@@ -66,15 +66,13 @@ export default function Products() {
               <Card
                 className="hover:shadow-lg transition-shadow cursor-pointer"
               >
-                <CardHeader>
-                  <div className="w-28 h-28 rounded-xl bg-white/50 flex items-center justify-center mb-4 p-3 border-2 border-blue-200/30">
-                    <img 
-                      src={productIconsMap[product.icon || ""] || "/icone/prodotti.png"} 
-                      alt={product.name} 
-                      className="w-full h-full object-contain"
-                    />
-                  </div>
-                  <CardTitle className="text-xl font-bold">{product.name}</CardTitle>
+                <CardHeader className="flex flex-col items-center">
+                  <img 
+                    src={productIconsMap[product.icon || ""] || "/icone/prodotti.png"} 
+                    alt={product.name} 
+                    className="w-32 h-32 object-contain mb-4"
+                  />
+                  <CardTitle className="text-xl font-bold text-center">{product.name}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <CardDescription className="text-gray-600">

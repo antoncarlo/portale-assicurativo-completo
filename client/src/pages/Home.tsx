@@ -65,9 +65,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Totale Polizze
               </CardTitle>
-              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-blue-200/30">
-                <img src="/icone/totale_polizze.png" alt="Totale Polizze" className="w-full h-full object-contain" />
-              </div>
+              <img src="/icone/totale_polizze.png" alt="Totale Polizze" className="w-24 h-24 object-contain" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold text-gray-900">
@@ -81,9 +79,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Polizze Attive
               </CardTitle>
-              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-green-200/30">
-                <img src="/icone/polizze_attive.png" alt="Polizze Attive" className="w-full h-full object-contain" />
-              </div>
+              <img src="/icone/polizze_attive.png" alt="Polizze Attive" className="w-24 h-24 object-contain" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold text-gray-900">
@@ -97,9 +93,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 In Quotazione
               </CardTitle>
-              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-orange-200/30">
-                <img src="/icone/in_quotazione.png" alt="In Quotazione" className="w-full h-full object-contain" />
-              </div>
+              <img src="/icone/in_quotazione.png" alt="In Quotazione" className="w-24 h-24 object-contain" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold text-gray-900">
@@ -113,9 +107,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Premi Totali
               </CardTitle>
-              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-purple-200/30">
-                <img src="/icone/premi_totali.png" alt="Premi Totali" className="w-full h-full object-contain" />
-              </div>
+              <img src="/icone/premi_totali.png" alt="Premi Totali" className="w-24 h-24 object-contain" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold text-gray-900">
@@ -130,9 +122,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Sinistri Totali
               </CardTitle>
-              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-red-200/30">
-                <img src="/icone/sinistri_totali.png" alt="Sinistri Totali" className="w-full h-full object-contain" />
-              </div>
+              <img src="/icone/sinistri_totali.png" alt="Sinistri Totali" className="w-24 h-24 object-contain" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold text-gray-900">
@@ -146,9 +136,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Sinistri Aperti
               </CardTitle>
-              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-yellow-200/30">
-                <img src="/icone/sinistri_aperti.png" alt="Sinistri Aperti" className="w-full h-full object-contain" />
-              </div>
+              <img src="/icone/sinistri_aperti.png" alt="Sinistri Aperti" className="w-24 h-24 object-contain" />
             </CardHeader>
             <CardContent>
               <div className="text-3xl font-semibold text-gray-900">

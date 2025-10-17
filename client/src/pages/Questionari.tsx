@@ -13,7 +13,7 @@ const questionari = [
     descrizione: "Questionario per Assicurazione Contractors All Risks con copertura decennale postuma",
     file: "/questionari/1.QuestionarioCAR+DecennalePostumaL210(1)(1)(3)(1).pdf",
     tipo: "PDF",
-    icon: "🏗️",
+    icon: "/icone_prodotti/fidejussioni.png",
     categoria: "Edilizia"
   },
   {
@@ -22,7 +22,7 @@ const questionari = [
     descrizione: "Questionario Industrial All Risks per impianti fotovoltaici",
     file: "/questionari/QuestionarioIAR-Fotovoltaico(1)(4).docx",
     tipo: "Word",
-    icon: "☀️",
+    icon: "/icone_prodotti/iar_fotovoltaico.png",
     categoria: "Energia"
   },
   {
@@ -31,7 +31,7 @@ const questionari = [
     descrizione: "Richiesta quotazione Responsabilità Civile per imprese edili e industriali",
     file: "/questionari/RichiestaquotazioneRCedilieindustriali.pdf",
     tipo: "PDF",
-    icon: "⚙️",
+    icon: "/icone_prodotti/rc_edili.png",
     categoria: "Responsabilità Civile"
   },
   {
@@ -40,7 +40,7 @@ const questionari = [
     descrizione: "Scheda semplificata per polizza multirischio negozi e attività commerciali",
     file: "/questionari/SCHEDASEMPLIFICATA-MultirischiEserciziCommercialirev.1(002)(1).pdf",
     tipo: "PDF",
-    icon: "🏪",
+    icon: "/icone_prodotti/multirischio_commerciale.png",
     categoria: "Multirischio"
   },
   {
@@ -49,7 +49,7 @@ const questionari = [
     descrizione: "Scheda per assicurazione completa animali domestici",
     file: "/questionari/SCHEDAPolizzaPET.pdf",
     tipo: "PDF",
-    icon: "🐾",
+    icon: "/icone_prodotti/polizza_pet.png",
     categoria: "Animali"
   },
   {
@@ -58,7 +58,7 @@ const questionari = [
     descrizione: "Scheda completa per polizza abitazioni e nucleo familiare",
     file: "/questionari/SCHEDACOMPLETA-MultirischiCasaeFamigliarev.2-01.2025(003).pdf",
     tipo: "PDF",
-    icon: "🏠",
+    icon: "/icone_prodotti/multirischio_casa.png",
     categoria: "Multirischio"
   },
   {
@@ -67,7 +67,7 @@ const questionari = [
     descrizione: "Questionario completo per cauzioni e fidejussioni (appalti pubblici e privati)",
     file: "/questionari/Fideiussioni_Italia_Aggiornato(1)(1).docx",
     tipo: "Word",
-    icon: "⚖️",
+    icon: "/icone_prodotti/car_decennale.png",
     categoria: "Cauzioni"
   },
   {
@@ -76,7 +76,7 @@ const questionari = [
     descrizione: "Questionario aggiuntivo per prodotti specifici",
     file: "/questionari/Questionario_1015(2).pdf",
     tipo: "PDF",
-    icon: "📋",
+    icon: "/icone/questionari.png",
     categoria: "Assicurazione Fabbricati"
   }
 ];
@@ -125,7 +125,7 @@ export default function Questionari() {
           <Card className="bg-blue-50 border-blue-200">
             <CardContent className="p-6">
               <div className="flex items-start gap-4">
-                <div className="text-4xl">💡</div>
+                <img src="/icone/questionari.png" alt="Info" className="w-16 h-16 object-contain" />
                 <div>
                   <h3 className="font-semibold mb-2">Come utilizzare i questionari</h3>
                   <ol className="text-sm text-gray-700 space-y-2">
@@ -155,9 +155,11 @@ export default function Questionari() {
                     >
                       <CardHeader>
                         <div className="flex items-start justify-between">
-                          <div className="w-12 h-12 rounded-lg bg-blue-600 flex items-center justify-center mb-4">
-                            <span className="text-2xl">{questionario.icon}</span>
-                          </div>
+                          <img 
+                            src={questionario.icon} 
+                            alt={questionario.nome} 
+                            className="w-20 h-20 object-contain mb-4"
+                          />
                           <span
                             className={`px-2 py-1 rounded text-xs font-medium ${
                               questionario.tipo === "PDF"
@@ -176,7 +178,6 @@ export default function Questionari() {
                         </p>
                         <a href={questionario.file} download>
                           <Button className="w-full" variant="default">
-                            <span className="mr-2">📥</span>
                             Scarica Questionario
                           </Button>
                         </a>

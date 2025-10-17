@@ -84,7 +84,8 @@ export default function Commissions() {
           <Card className="bg-gradient-to-br from-green-50 to-green-100 border-green-200">
             <CardContent className="pt-6">
               <div className="text-center">
-                <p className="text-sm text-green-700 mb-1">💰 Totale Guadagnato</p>
+                <img src="/icone/totale_guadagnato.png" alt="Totale Guadagnato" className="w-20 h-20 object-contain mx-auto mb-2" />
+                <p className="text-sm text-green-700 mb-1">Totale Guadagnato</p>
                 <p className="text-3xl font-bold text-green-600">€{totalEarned.toLocaleString()}</p>
                 <p className="text-xs text-green-600 mt-1">Provvigioni pagate</p>
               </div>
@@ -94,7 +95,8 @@ export default function Commissions() {
           <Card className="bg-gradient-to-br from-yellow-50 to-yellow-100 border-yellow-200">
             <CardContent className="pt-6">
               <div className="text-center">
-                <p className="text-sm text-yellow-700 mb-1">⏳ In Attesa</p>
+                <img src="/icone/in_attesa.png" alt="In Attesa" className="w-20 h-20 object-contain mx-auto mb-2" />
+                <p className="text-sm text-yellow-700 mb-1">In Attesa</p>
                 <p className="text-3xl font-bold text-yellow-600">€{totalPending.toLocaleString()}</p>
                 <p className="text-xs text-yellow-600 mt-1">Da ricevere</p>
               </div>
@@ -104,7 +106,8 @@ export default function Commissions() {
           <Card className="bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200">
             <CardContent className="pt-6">
               <div className="text-center">
-                <p className="text-sm text-blue-700 mb-1">📊 Totale Provvigioni</p>
+                <img src="/icone/provvigioni.png" alt="Totale Provvigioni" className="w-20 h-20 object-contain mx-auto mb-2" />
+                <p className="text-sm text-blue-700 mb-1">Totale Provvigioni</p>
                 <p className="text-3xl font-bold text-blue-600">€{totalCommissions.toLocaleString()}</p>
                 <p className="text-xs text-blue-600 mt-1">Tutte le provvigioni</p>
               </div>
@@ -114,7 +117,8 @@ export default function Commissions() {
           <Card className="bg-gradient-to-br from-purple-50 to-purple-100 border-purple-200">
             <CardContent className="pt-6">
               <div className="text-center">
-                <p className="text-sm text-purple-700 mb-1">📈 Tasso Provvigione</p>
+                <img src="/icone/percentuale.png" alt="Tasso Provvigione" className="w-20 h-20 object-contain mx-auto mb-2" />
+                <p className="text-sm text-purple-700 mb-1">Tasso Provvigione</p>
                 <p className="text-3xl font-bold text-purple-600">{currentUser.commissionRate || 0}%</p>
                 <p className="text-xs text-purple-600 mt-1">Percentuale attuale</p>
               </div>
@@ -131,7 +135,7 @@ export default function Commissions() {
                 className="bg-green-50 text-green-700 hover:bg-green-100"
                 onClick={() => exportCommissionsToExcel(commissions)}
               >
-                📥 Esporta Excel
+                Esporta Excel
               </Button>
           </CardHeader>
           <CardContent>

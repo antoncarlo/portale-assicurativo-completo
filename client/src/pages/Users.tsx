@@ -109,7 +109,7 @@ export default function Users() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
-              <span className="text-3xl">🛡️</span>
+              <img src="/icone/dashboard.png" alt="Logo" className="w-10 h-10 object-contain" />
               <h1 className="text-2xl font-bold">Portale Broker</h1>
             </div>
             <div className="flex items-center space-x-4">
@@ -154,7 +154,13 @@ export default function Users() {
                   }
                 }}
               >
-                <span className="mr-2">{item.icon}</span>
+                {item.iconImage && (
+                  <img 
+                    src={item.iconImage} 
+                    alt={item.name} 
+                    className="w-5 h-5 object-contain opacity-70 mr-2 inline-block"
+                  />
+                )}
                 {item.name}
               </a>
             ))}

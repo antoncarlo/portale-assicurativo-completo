@@ -129,7 +129,7 @@ export default function ClaimDetail() {
                       onClick={() => handleStatusChange("under_review")}
                       className="w-full bg-yellow-600 hover:bg-yellow-700"
                     >
-                      📋 Prendi in Carico
+                      Prendi in Carico
                     </Button>
                   )}
 
@@ -180,7 +180,7 @@ export default function ClaimDetail() {
                       onClick={() => handleStatusChange("paid")}
                       className="w-full bg-blue-600 hover:bg-blue-700"
                     >
-                      💰 Segna come Pagato
+                      Segna come Pagato
                     </Button>
                   )}
 

@@ -171,7 +171,7 @@ export default function NewPolicyWizard() {
               download
               className="text-sm text-blue-600 hover:underline flex items-center gap-2"
             >
-              📥 Scarica Questionario PDF/Word
+              Scarica Questionario PDF/Word
             </a>
           )}
         </div>
@@ -560,7 +560,7 @@ export default function NewPolicyWizard() {
                 
                 <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
                   <p className="text-sm text-blue-900 mb-4">
-                    <strong>📋 Questionario Dettagliato</strong>
+                    <strong>Questionario Dettagliato</strong>
                   </p>
                   <p className="text-sm text-gray-700 mb-4">
                     Per questo prodotto è necessario compilare un questionario dettagliato.
@@ -581,7 +581,7 @@ export default function NewPolicyWizard() {
                             className="inline-block mt-2"
                           >
                             <Button variant="outline" size="sm">
-                              📥 Scarica Questionario
+                              Scarica Questionario
                             </Button>
                           </a>
                         )}
@@ -737,7 +737,7 @@ export default function NewPolicyWizard() {
 
                 <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
                   <p className="text-sm text-yellow-900">
-                    <strong>⚠️ Attenzione:</strong> Verifica attentamente tutti i dati prima di inviare la richiesta.
+                    <strong>Attenzione:</strong> Verifica attentamente tutti i dati prima di inviare la richiesta.
                     Dopo l'invio, il nostro team ti contatterà per eventuali chiarimenti.
                   </p>
                 </div>
