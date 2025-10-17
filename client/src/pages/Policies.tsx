@@ -88,7 +88,7 @@ export default function Policies() {
                       <TableCell className="font-medium">
                         {policy.policyNumber}
                       </TableCell>
-                      <TableCell>{policy.productType.name}</TableCell>
+                      <TableCell>{policy.productType?.name || 'N/A'}</TableCell>
                       <TableCell>{policy.clientName}</TableCell>
                       <TableCell>
                         <Badge variant={statusMap[policy.status]?.variant || "outline"}>

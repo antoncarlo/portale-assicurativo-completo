@@ -1,6 +1,7 @@
 import { trpc } from "@/lib/trpc";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Link, useLocation } from "wouter";
+import Header from "@/components/Header";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -89,7 +90,7 @@ export default function NewClaim() {
                 <SelectContent>
                   {policies?.policies?.map((policy: any) => (
                     <SelectItem key={policy.id} value={policy.id}>
-                      {policy.policyNumber} - {policy.productName}
+                      {policy.policyNumber} - {policy.productType?.name || 'Prodotto sconosciuto'}
                     </SelectItem>
                   ))}
                 </SelectContent>

@@ -15,6 +15,7 @@ export const users = mysqlTable("users", {
   parentAgentId: varchar("parentAgentId", { length: 64 }), // Per gerarchia agenti
   commissionRate: int("commissionRate").default(0), // Percentuale provvigione
   createdAt: timestamp("createdAt").defaultNow(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow(),
   lastSignedIn: timestamp("lastSignedIn"),
 });
 

@@ -29,7 +29,7 @@ export function exportCommissionsToExcel(commissions: any[]) {
 export function exportPoliciesToExcel(policies: any[]) {
   const data = policies.map(p => ({
     'N. Polizza': p.policyNumber,
-    Prodotto: p.productName,
+    Prodotto: p.productType?.name || 'Sconosciuto',
     Cliente: p.clientName,
     Stato: p.status,
     Premio: p.premium ? `€${p.premium.toLocaleString()}` : '-',
