@@ -67,11 +67,11 @@ export default function Products() {
                 className="hover:shadow-lg transition-shadow cursor-pointer"
               >
                 <CardHeader>
-                  <div className={`w-20 h-20 rounded-xl bg-gradient-to-br ${productColorsMap[product.icon || ""] || "from-blue-500 to-blue-700"} flex items-center justify-center mb-4 p-3 shadow-lg`}>
+                  <div className="w-28 h-28 rounded-xl bg-white/50 flex items-center justify-center mb-4 p-3 border-2 border-blue-200/30">
                     <img 
                       src={productIconsMap[product.icon || ""] || "/icone/prodotti.png"} 
                       alt={product.name} 
-                      className="w-full h-full object-contain filter brightness-0 invert"
+                      className="w-full h-full object-contain"
                     />
                   </div>
                   <CardTitle className="text-xl font-bold">{product.name}</CardTitle>

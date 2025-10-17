@@ -65,7 +65,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Totale Polizze
               </CardTitle>
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-blue-50 to-blue-100 flex items-center justify-center p-2">
+              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-blue-200/30">
                 <img src="/icone/totale_polizze.png" alt="Totale Polizze" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
@@ -81,7 +81,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Polizze Attive
               </CardTitle>
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-green-50 to-green-100 flex items-center justify-center p-2">
+              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-green-200/30">
                 <img src="/icone/polizze_attive.png" alt="Polizze Attive" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
@@ -97,7 +97,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 In Quotazione
               </CardTitle>
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-orange-50 to-orange-100 flex items-center justify-center p-2">
+              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-orange-200/30">
                 <img src="/icone/in_quotazione.png" alt="In Quotazione" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
@@ -113,7 +113,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Premi Totali
               </CardTitle>
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-purple-50 to-purple-100 flex items-center justify-center p-2">
+              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-purple-200/30">
                 <img src="/icone/premi_totali.png" alt="Premi Totali" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
@@ -130,7 +130,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Sinistri Totali
               </CardTitle>
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-red-50 to-red-100 flex items-center justify-center p-2">
+              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-red-200/30">
                 <img src="/icone/sinistri_totali.png" alt="Sinistri Totali" className="w-full h-full object-contain" />
               </div>
             </CardHeader>
@@ -146,7 +146,7 @@ export default function Home() {
               <CardTitle className="text-sm font-medium text-gray-600">
                 Sinistri Aperti
               </CardTitle>
-              <div className="w-16 h-16 rounded-lg bg-gradient-to-br from-yellow-50 to-yellow-100 flex items-center justify-center p-2">
+              <div className="w-20 h-20 rounded-lg bg-white/50 flex items-center justify-center p-2 border-2 border-yellow-200/30">
                 <img src="/icone/sinistri_aperti.png" alt="Sinistri Aperti" className="w-full h-full object-contain" />
               </div>
             </CardHeader>

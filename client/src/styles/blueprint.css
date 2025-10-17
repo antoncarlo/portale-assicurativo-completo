@@ -1,0 +1,452 @@
+/* ============================================
+   PORTALE ASSICURATIVO - STILE BLUEPRINT/WIREFRAME
+   Design isometrico tech professionale
+   ============================================ */
+
+/* === FONT GLOBALE === */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+* {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Inter', 'Segoe UI', 'Roboto', sans-serif !important;
+}
+
+h1, h2, h3, h4, h5, h6,
+.font-bold,
+.font-semibold,
+[class*="font-bold"],
+[class*="font-semibold"] {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Inter', 'Segoe UI', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.02em;
+}
+
+.font-medium {
+  font-weight: 600 !important;
+}
+
+/* === SFONDO BLUEPRINT === */
+body {
+  background-color: #f0f4f8;
+  background-image: 
+    linear-gradient(rgba(59, 130, 246, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(59, 130, 246, 0.03) 1px, transparent 1px);
+  background-size: 20px 20px;
+  position: relative;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: 
+    radial-gradient(circle at 20% 50%, rgba(59, 130, 246, 0.05) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(139, 92, 246, 0.05) 0%, transparent 50%);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* === CARD WIREFRAME === */
+.card, [class*="Card"] {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 2px solid rgba(59, 130, 246, 0.2) !important;
+  border-radius: 12px !important;
+  box-shadow: 
+    4px 4px 0 rgba(59, 130, 246, 0.1),
+    8px 8px 0 rgba(59, 130, 246, 0.05) !important;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, 
+    rgba(59, 130, 246, 0.5) 0%, 
+    rgba(139, 92, 246, 0.5) 50%, 
+    rgba(59, 130, 246, 0.5) 100%);
+}
+
+.card:hover {
+  transform: translateY(-4px) translateX(2px);
+  border-color: rgba(59, 130, 246, 0.4) !important;
+  box-shadow: 
+    6px 6px 0 rgba(59, 130, 246, 0.15),
+    12px 12px 0 rgba(59, 130, 246, 0.08) !important;
+}
+
+/* === CARD DASHBOARD SPECIFICHE === */
+.card [class*="CardHeader"] {
+  position: relative;
+  padding-bottom: 12px !important;
+}
+
+.card [class*="CardHeader"]::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(59, 130, 246, 0.3) 20%, 
+    rgba(59, 130, 246, 0.3) 80%, 
+    transparent 100%);
+}
+
+/* === ICONE CONTAINER === */
+.card [class*="rounded-lg"],
+.card [class*="rounded-xl"] {
+  background: rgba(255, 255, 255, 0.6) !important;
+  border: 2px solid rgba(59, 130, 246, 0.2) !important;
+  position: relative;
+  overflow: visible !important;
+  min-width: 80px;
+  min-height: 80px;
+}
+
+.card [class*="rounded-lg"]::before,
+.card [class*="rounded-xl"]::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border: 1px dashed rgba(59, 130, 246, 0.2);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+/* === NUMERI E VALORI === */
+.card [class*="text-3xl"],
+.card [class*="text-2xl"] {
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Inter', sans-serif !important;
+  font-weight: 800 !important;
+  color: #1e40af !important;
+  text-shadow: 2px 2px 0 rgba(59, 130, 246, 0.1);
+  position: relative;
+  letter-spacing: -0.03em;
+}
+
+/* === TITOLI CARD === */
+.card [class*="CardTitle"] {
+  color: #1e293b !important;
+  font-weight: 700 !important;
+  letter-spacing: -0.01em;
+  font-size: 1.125rem !important;
+}
+
+.card [class*="font-medium"] {
+  color: #64748b !important;
+  font-weight: 600 !important;
+  letter-spacing: -0.01em;
+}
+
+/* === HEADER GLOBALE === */
+header, [class*="Header"] {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.2) !important;
+  box-shadow: 0 4px 6px rgba(59, 130, 246, 0.05) !important;
+  position: relative;
+}
+
+header::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    rgba(59, 130, 246, 0.5) 0%, 
+    rgba(139, 92, 246, 0.5) 50%, 
+    rgba(59, 130, 246, 0.5) 100%);
+}
+
+/* === TABS NAVIGATION === */
+.bg-white.border-b {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.15) !important;
+  position: relative;
+}
+
+button[class*="border-b-2"] {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+button[class*="border-blue-600"] {
+  border-bottom-color: #3b82f6 !important;
+  color: #1e40af !important;
+  font-weight: 600 !important;
+}
+
+button[class*="border-b-2"]:hover {
+  background: rgba(59, 130, 246, 0.05);
+}
+
+button[class*="border-b-2"]::before {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 50%;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    rgba(59, 130, 246, 0.5), 
+    rgba(139, 92, 246, 0.5));
+  transition: all 0.3s ease;
+  transform: translateX(-50%);
+}
+
+button[class*="border-blue-600"]::before {
+  width: 100%;
+}
+
+/* === TABELLE === */
+table {
+  border-collapse: separate !important;
+  border-spacing: 0 8px !important;
+}
+
+table thead tr {
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.1) 0%, 
+    rgba(139, 92, 246, 0.1) 100%) !important;
+  border: 2px solid rgba(59, 130, 246, 0.2) !important;
+}
+
+table thead th {
+  color: #1e40af !important;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  font-size: 0.8125rem !important;
+  letter-spacing: 0.05em;
+  padding: 16px !important;
+  border-bottom: 2px solid rgba(59, 130, 246, 0.3) !important;
+}
+
+table tbody tr {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(59, 130, 246, 0.15) !important;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+table tbody tr:hover {
+  background: rgba(59, 130, 246, 0.05) !important;
+  border-color: rgba(59, 130, 246, 0.3) !important;
+  transform: translateX(4px);
+  box-shadow: 4px 4px 0 rgba(59, 130, 246, 0.1);
+}
+
+table tbody td {
+  padding: 16px !important;
+  border-bottom: 1px dashed rgba(59, 130, 246, 0.1) !important;
+}
+
+/* === BOTTONI === */
+button[class*="bg-blue"],
+button[class*="bg-green"],
+button[class*="bg-red"] {
+  position: relative;
+  overflow: hidden;
+  border: 2px solid currentColor !important;
+  box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.1) !important;
+  transition: all 0.3s ease;
+}
+
+button[class*="bg-blue"]:hover,
+button[class*="bg-green"]:hover,
+button[class*="bg-red"]:hover {
+  transform: translate(-2px, -2px);
+  box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.15) !important;
+}
+
+button[class*="bg-blue"]::before,
+button[class*="bg-green"]::before,
+button[class*="bg-red"]::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: rgba(255, 255, 255, 0.2);
+  transition: left 0.3s ease;
+}
+
+button:hover::before {
+  left: 100%;
+}
+
+/* === INPUT E FORM === */
+input[type="text"],
+input[type="email"],
+input[type="number"],
+input[type="password"],
+select,
+textarea {
+  background: rgba(255, 255, 255, 0.95) !important;
+  border: 2px solid rgba(59, 130, 246, 0.2) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Inter', sans-serif !important;
+  font-weight: 500;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+  border-color: rgba(59, 130, 246, 0.5) !important;
+  box-shadow: 
+    0 0 0 3px rgba(59, 130, 246, 0.1),
+    3px 3px 0 rgba(59, 130, 246, 0.1) !important;
+  outline: none !important;
+}
+
+/* === BADGE E TAG === */
+[class*="badge"],
+[class*="tag"],
+span[class*="bg-green"],
+span[class*="bg-yellow"],
+span[class*="bg-red"],
+span[class*="bg-blue"] {
+  border: 1px solid currentColor !important;
+  box-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1) !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Helvetica Neue', 'Inter', sans-serif !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.03em;
+}
+
+/* === SCROLLBAR CUSTOM === */
+::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(59, 130, 246, 0.05);
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.5) 0%, 
+    rgba(139, 92, 246, 0.5) 100%);
+  border: 2px solid rgba(255, 255, 255, 0.5);
+  border-radius: 6px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, 
+    rgba(59, 130, 246, 0.7) 0%, 
+    rgba(139, 92, 246, 0.7) 100%);
+}
+
+/* === ANIMAZIONI TECH === */
+@keyframes pulse-tech {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+@keyframes slide-in {
+  from {
+    transform: translateX(-20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.card {
+  animation: slide-in 0.5s ease-out;
+}
+
+/* === EFFETTI HOVER GLOBALI === */
+a:not(button) {
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+a:not(button):hover {
+  color: #3b82f6 !important;
+}
+
+a:not(button)::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: linear-gradient(90deg, 
+    rgba(59, 130, 246, 0.5), 
+    rgba(139, 92, 246, 0.5));
+  transition: width 0.3s ease;
+}
+
+a:not(button):hover::after {
+  width: 100%;
+}
+
+/* === MODAL E DIALOG === */
+[role="dialog"],
+[class*="Dialog"] {
+  background: rgba(255, 255, 255, 0.98) !important;
+  border: 3px solid rgba(59, 130, 246, 0.3) !important;
+  border-radius: 16px !important;
+  box-shadow: 
+    0 20px 25px -5px rgba(59, 130, 246, 0.1),
+    0 10px 10px -5px rgba(59, 130, 246, 0.04),
+    8px 8px 0 rgba(59, 130, 246, 0.1) !important;
+}
+
+/* === RESPONSIVE === */
+@media (max-width: 768px) {
+  .card {
+    box-shadow: 
+      2px 2px 0 rgba(59, 130, 246, 0.1),
+      4px 4px 0 rgba(59, 130, 246, 0.05) !important;
+  }
+  
+  .card:hover {
+    transform: translateY(-2px) translateX(1px);
+  }
+}
+
+/* === UTILITY CLASSES === */
+.blueprint-line {
+  border-bottom: 1px dashed rgba(59, 130, 246, 0.3);
+}
+
+.blueprint-box {
+  border: 2px solid rgba(59, 130, 246, 0.2);
+  background: rgba(59, 130, 246, 0.02);
+}
+
+.tech-glow {
+  box-shadow: 0 0 20px rgba(59, 130, 246, 0.3);
+}
+
+.isometric-shadow {
+  box-shadow: 
+    4px 4px 0 rgba(59, 130, 246, 0.1),
+    8px 8px 0 rgba(59, 130, 246, 0.05);
+}
+
