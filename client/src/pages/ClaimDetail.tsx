@@ -54,8 +54,6 @@ export default function ClaimDetail() {
     updateStatus.mutate({
       id: claimId,
       status: newStatus,
-      notes: newStatus === "rejected" ? rejectionReason : undefined,
-      approvedAmount: newStatus === "approved" ? parseFloat(approvedAmount) : undefined,
     });
   };
 
@@ -112,16 +110,16 @@ export default function ClaimDetail() {
                   <div>
                     <h3 className="font-semibold text-gray-700 mb-2">Importo Stimato</h3>
                     <p className="text-2xl font-bold text-blue-600">
-                      €{claim.claimAmount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                      €{parseFloat(claim.claimAmount).toLocaleString("it-IT", { minimumFractionDigits: 2 })}
                     </p>
                   </div>
                 )}
 
-                {claim.approvedAmount && (
+                {claim.paidAmount && (
                   <div>
                     <h3 className="font-semibold text-gray-700 mb-2">Importo Approvato</h3>
                     <p className="text-2xl font-bold text-green-600">
-                      €{claim.approvedAmount.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                      €{parseFloat(claim.paidAmount).toLocaleString("it-IT", { minimumFractionDigits: 2 })}
                     </p>
                   </div>
                 )}

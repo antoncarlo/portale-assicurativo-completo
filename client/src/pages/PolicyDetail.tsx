@@ -110,17 +110,17 @@ export default function PolicyDetail() {
                 <div className="grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-sm text-gray-600">Prodotto</p>
-                    <p className="font-semibold">{policy.productName}</p>
+                    <p className="font-semibold">{policy.productTypeId}</p>
                   </div>
                   <div>
                     <p className="text-sm text-gray-600">Cliente</p>
                     <p className="font-semibold">{policy.clientName}</p>
                   </div>
-                  {policy.premium && (
+                  {policy.premiumAmount && (
                     <div>
                       <p className="text-sm text-gray-600">Premio</p>
                       <p className="text-xl font-bold text-blue-600">
-                        €{policy.premium.toLocaleString("it-IT", { minimumFractionDigits: 2 })}
+                        €{parseFloat(policy.premiumAmount).toLocaleString("it-IT", { minimumFractionDigits: 2 })}
                       </p>
                     </div>
                   )}
@@ -137,20 +137,13 @@ export default function PolicyDetail() {
             </Card>
 
             {/* Dati Contraente */}
-            {policy.policyData && (
+            {policy.notes && (
               <Card>
                 <CardHeader>
-                  <CardTitle>Dati Contraente</CardTitle>
+                  <CardTitle>Note Polizza</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    {Object.entries(JSON.parse(policy.policyData as any)).map(([key, value]) => (
-                      <div key={key}>
-                        <p className="text-gray-600 capitalize">{key.replace(/_/g, " ")}</p>
-                        <p className="font-medium">{String(value)}</p>
-                      </div>
-                    ))}
-                  </div>
+                  <p className="text-sm text-gray-700">{policy.notes}</p>
                 </CardContent>
               </Card>
             )}

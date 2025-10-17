@@ -20,7 +20,7 @@ const categoryMap: Record<string, { label: string; color: string }> = {
 };
 
 export default function Documents() {
-  const { data: documents, isLoading } = trpc.documents.list.useQuery({});
+  const { data: documents, isLoading } = trpc.documents.list.useQuery();
 
   const [location] = useLocation();
   const navItems = [
@@ -81,7 +81,7 @@ export default function Documents() {
                     <div key={i} className="h-16 bg-gray-100 rounded animate-pulse"></div>
                   ))}
                 </div>
-              ) : !documents || documents.length === 0 ? (
+              ) : !documents?.documents || documents.documents.length === 0 ? (
                 <div className="text-center py-12">
                   <div className="text-6xl mb-4">📄</div>
                   <p className="text-gray-500 mb-4">Nessun documento caricato</p>
@@ -99,7 +99,7 @@ export default function Documents() {
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {documents.map((doc) => (
+                    {documents.documents.map((doc: any) => (
                       <TableRow key={doc.id}>
                         <TableCell className="font-medium">
                           <div className="flex items-center gap-2">

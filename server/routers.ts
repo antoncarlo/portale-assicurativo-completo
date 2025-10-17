@@ -121,6 +121,20 @@ export const appRouter = router({
       return { claims: claimsWithPolicy };
     }),
     
+    getById: publicProcedure
+      .input((input: any) => input)
+      .query(async ({ input }) => {
+        const { getClaimById } = await import("./db");
+        return await getClaimById(input);
+      }),
+    
+    updateStatus: publicProcedure
+      .input((input: any) => input)
+      .mutation(async ({ input }) => {
+        const { updateClaim } = await import("./db");
+        return await updateClaim(input.id, { status: input.status });
+      }),
+    
     create: publicProcedure
       .input((input: any) => input)
       .mutation(async ({ input }) => {

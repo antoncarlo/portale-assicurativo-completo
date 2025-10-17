@@ -182,6 +182,14 @@ export async function createClaim(claimData: InsertClaim) {
   return id;
 }
 
+export async function updateClaim(id: string, updates: Partial<InsertClaim>) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db.update(claims).set({ ...updates, updatedAt: new Date() }).where(eq(claims.id, id));
+  return { success: true };
+}
+
 // ===== POLICY COMMUNICATIONS =====
 
 export async function getPolicyCommunications(policyId: string) {

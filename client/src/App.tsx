@@ -29,6 +29,7 @@ function ProtectedRoute({ component: Component, ...rest }: any) {
 function Router() {
   return (
     <Switch>
+      <Route path="/login" component={Login} />
       <Route path="/claims/new">{() => <ProtectedRoute component={NewClaim} />}</Route>
       <Route path="/claims/:claimId">{() => <ProtectedRoute component={ClaimDetail} />}</Route>
       <Route path="/">{() => <ProtectedRoute component={Home} />}</Route>
