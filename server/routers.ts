@@ -113,7 +113,9 @@ export const appRouter = router({
       .input((input: any) => input)
       .mutation(async ({ input }) => {
         const { deletePolicy } = await import("./db");
-        return await deletePolicy(input);
+        // Estrai l'ID dalla stringa o dall'oggetto
+        const policyId = typeof input === 'string' ? input : input.id || input;
+        return await deletePolicy(policyId);
       }),
   }),
 

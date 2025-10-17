@@ -17,6 +17,8 @@ import { toast } from "sonner";
 export default function Users() {
   const [activeTab, setActiveTab] = useState("Utenti");
   const [isCreateDialogOpen, setIsCreateDialogOpen] = useState(false);
+  const [isEditDialogOpen, setIsEditDialogOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<any>(null);
   const [newUser, setNewUser] = useState({
     username: "",
     password: "",
@@ -84,6 +86,20 @@ export default function Users() {
       return;
     }
     registerMutation.mutate(newUser);
+  };
+
+  const handleUpdateUser = () => {
+    if (!editingUser) return;
+    updateUserMutation.mutate({
+      id: editingUser.id,
+      name: editingUser.name,
+      email: editingUser.email,
+      phone: editingUser.phone,
+      role: editingUser.role,
+      commissionRate: editingUser.commissionRate,
+    });
+    setIsEditDialogOpen(false);
+    setEditingUser(null);
   };
 
   const handleLogout = () => {
@@ -410,8 +426,8 @@ export default function Users() {
                               size="sm" 
                               className="text-blue-600"
                               onClick={() => {
-                                // TODO: Aprire dialog modifica utente
-                                toast.info("Funzione modifica in arrivo!");
+                                setEditingUser(user);
+                                setIsEditDialogOpen(true);
                               }}
                             >
                               ✏️ Modifica
@@ -435,6 +451,105 @@ export default function Users() {
           </CardContent>
         </Card>
       </div>
+
+      {/* Dialog Modifica Utente */}
+      <Dialog open={isEditDialogOpen} onOpenChange={setIsEditDialogOpen}>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle>Modifica Utente</DialogTitle>
+            <DialogDescription>
+              Modifica i dati dell'utente selezionato.
+            </DialogDescription>
+          </DialogHeader>
+          
+          {editingUser && (
+            <div className="grid grid-cols-2 gap-4 py-4">
+              <div className="space-y-2 col-span-2">
+                <Label>Username (non modificabile)</Label>
+                <Input value={editingUser.username} disabled />
+              </div>
+
+              <div className="space-y-2 col-span-2">
+                <Label htmlFor="edit-name">Nome Completo *</Label>
+                <Input
+                  id="edit-name"
+                  value={editingUser.name || ''}
+                  onChange={(e) => setEditingUser({ ...editingUser, name: e.target.value })}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-email">Email *</Label>
+                <Input
+                  id="edit-email"
+                  type="email"
+                  value={editingUser.email || ''}
+                  onChange={(e) => setEditingUser({ ...editingUser, email: e.target.value })}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-phone">Telefono</Label>
+                <Input
+                  id="edit-phone"
+                  value={editingUser.phone || ''}
+                  onChange={(e) => setEditingUser({ ...editingUser, phone: e.target.value })}
+                />
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-role">Ruolo *</Label>
+                <Select
+                  value={editingUser.role}
+                  onValueChange={(value) => setEditingUser({ ...editingUser, role: value })}
+                >
+                  <SelectTrigger>
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="agent">Agente</SelectItem>
+                    <SelectItem value="collaborator">Collaboratore</SelectItem>
+                    {currentUser.role === "master" && (
+                      <SelectItem value="admin">Amministratore</SelectItem>
+                    )}
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="space-y-2">
+                <Label htmlFor="edit-commission">Percentuale Provvigione (%)</Label>
+                <Input
+                  id="edit-commission"
+                  type="number"
+                  value={editingUser.commissionRate || 0}
+                  onChange={(e) => setEditingUser({ ...editingUser, commissionRate: parseInt(e.target.value) })}
+                  min="0"
+                  max="100"
+                />
+              </div>
+            </div>
+          )}
+
+          <div className="flex justify-end space-x-2">
+            <Button
+              variant="outline"
+              onClick={() => {
+                setIsEditDialogOpen(false);
+                setEditingUser(null);
+              }}
+            >
+              Annulla
+            </Button>
+            <Button
+              onClick={handleUpdateUser}
+              disabled={updateUserMutation.isPending}
+              className="bg-blue-600 hover:bg-blue-700"
+            >
+              {updateUserMutation.isPending ? "Salvataggio..." : "Salva Modifiche"}
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 }

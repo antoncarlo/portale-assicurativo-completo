@@ -128,6 +128,18 @@ export default function PolicyDetail() {
                     <p className="text-sm text-gray-600">Cliente</p>
                     <p className="font-semibold">{policy.clientName}</p>
                   </div>
+                  {policy.clientEmail && (
+                    <div>
+                      <p className="text-sm text-gray-600">Email Cliente</p>
+                      <p className="font-semibold">{policy.clientEmail}</p>
+                    </div>
+                  )}
+                  {policy.clientPhone && (
+                    <div>
+                      <p className="text-sm text-gray-600">Telefono Cliente</p>
+                      <p className="font-semibold">{policy.clientPhone}</p>
+                    </div>
+                  )}
                   {policy.premiumAmount && (
                     <div>
                       <p className="text-sm text-gray-600">Premio</p>
@@ -144,6 +156,18 @@ export default function PolicyDetail() {
                       </p>
                     </div>
                   )}
+                  {policy.endDate && (
+                    <div>
+                      <p className="text-sm text-gray-600">Data Fine</p>
+                      <p className="font-semibold">
+                        {new Date(policy.endDate).toLocaleDateString("it-IT")}
+                      </p>
+                    </div>
+                  )}
+                  <div>
+                    <p className="text-sm text-gray-600">Numero Polizza</p>
+                    <p className="font-semibold">{policy.policyNumber || 'Non assegnato'}</p>
+                  </div>
                 </div>
               </CardContent>
             </Card>
@@ -155,10 +179,9 @@ export default function PolicyDetail() {
                   <CardTitle>Note Polizza</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <div 
-                    className="text-sm text-gray-700 prose prose-sm max-w-none"
-                    dangerouslySetInnerHTML={{ __html: policy.notes || "" }}
-                  />
+                  <div className="text-sm text-gray-700 whitespace-pre-wrap">
+                    {policy.notes}
+                  </div>
                 </CardContent>
               </Card>
             )}
@@ -311,15 +334,25 @@ export default function PolicyDetail() {
                   )}
                   <Separator />
                   <Button 
+                    variant="outline" 
+                    className="w-full"
+                    onClick={() => {
+                      toast.info("Funzione modifica polizza in sviluppo");
+                    }}
+                  >
+                    ✏️ Modifica Polizza
+                  </Button>
+                  <Button 
                     variant="destructive" 
                     className="w-full"
                     onClick={() => {
-                      if (confirm("Sei sicuro di voler eliminare questa polizza?")) {
+                      if (confirm("Sei sicuro di voler eliminare questa polizza? Questa azione non può essere annullata.")) {
                         deletePolicy.mutate(policyId!);
                       }
                     }}
+                    disabled={deletePolicy.isPending}
                   >
-                    🗑️ Elimina Polizza
+                    {deletePolicy.isPending ? "Eliminazione..." : "🗑️ Elimina Polizza"}
                   </Button>
                 </CardContent>
               </Card>

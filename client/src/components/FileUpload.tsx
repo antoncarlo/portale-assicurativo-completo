@@ -60,22 +60,25 @@ export function FileUpload({ onUploadComplete, maxFiles = 10, acceptedTypes = "*
     setUploadProgress(0);
 
     try {
-      // Simulazione upload (in produzione userebbe S3)
       const uploadedFiles: UploadedFile[] = [];
       
       for (let i = 0; i < files.length; i++) {
         const file = files[i];
         
-        // Simulazione progress
-        await new Promise(resolve => setTimeout(resolve, 500));
+        // Converti il file in Data URL per permettere il download
+        const dataUrl = await new Promise<string>((resolve) => {
+          const reader = new FileReader();
+          reader.onloadend = () => resolve(reader.result as string);
+          reader.readAsDataURL(file);
+        });
+        
         setUploadProgress(((i + 1) / files.length) * 100);
 
-        // In produzione, qui si userebbe storagePut() dal server
         uploadedFiles.push({
           name: file.name,
           size: file.size,
           type: file.type,
-          url: `https://storage.example.com/${file.name}`, // URL simulato
+          url: dataUrl, // Data URL per download immediato
         });
       }
 
